@@ -1,0 +1,5 @@
+Virtualenv in conda named as "blogsite"
+
+Command: conda activate blogsite
+
+Bootstrap link added
