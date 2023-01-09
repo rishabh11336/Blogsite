@@ -7,14 +7,14 @@ import os
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-	
 
 @app.route('/')
 @app.route('/home')
 def feeds():
     if 'user_id' in session:
         print(session['user_id'])
-        return render_template("index.html")
+        userid = session['user_id']
+        return render_template("index.html", userid=userid)
     else:
         return redirect('/sign-in')
 
@@ -22,26 +22,42 @@ def feeds():
 @app.route('/sign-in', methods=['POST', 'GET'])
 def sign_in():
     if 'user_id' in session:
-        return render_template("index.html")
+        userid = session['user_id']
+        return render_template("index.html", userid=userid)
     return render_template('sign-in.html')
 
 
 @app.route('/sign-up')
 def sign_up():
     if 'user_id' in session:
-        return render_template("index.html")
+        userid = session['user_id']
+        return render_template("index.html", userid=userid)
     return render_template('sign-up.html')
 
 
-@app.route('/profile')
-def profile():
+@app.route('/<int:id>')
+def profile(id):
     if 'user_id' in session:
-        user = User.query.filter_by(id=session['user_id'])
-        check = [i for i in user]
-        print(check)
-        following = Following.query.filter_by(id=session['user_id'])
-        follower = len([i for i in following])
-        return render_template('profile.html', user=check[0], follower=follower, follow=00)
+        if session['user_id'] == id:
+            userid = session['user_id']
+            user = User.query.filter_by(id=session['user_id'])
+            check = [i for i in user]
+            print(check)
+            following = Following.query.filter_by(id=session['user_id'])
+            follower = len([i for i in following])
+            followed = Following.query.filter_by(following_id=session['user_id'])
+            follow = len([i for i in followed])
+            return render_template('profile.html', user=check[0], follower=follower, follow=follow, userid=userid)
+        else:
+            userid = session['user_id']
+            user = User.query.filter_by(id=id)
+            check = [i for i in user]
+            print(check)
+            following = Following.query.filter_by(id=id)
+            follower = len([i for i in following])
+            followed = Following.query.filter_by(following_id=id)
+            follow = len([i for i in followed])
+            return render_template('profile.html', userid=userid, user=check[0], follower=follower, follow=follow)
     else:
         return redirect('/sign-in')
 
@@ -49,7 +65,12 @@ def profile():
 @app.route('/follow')
 def follow():
     if 'user_id' in session:
-        return render_template('follow.html')
+        userid = session['user_id']
+        following = Following.query.filter_by(id=session['user_id'])
+        follower = [i for i in following]
+        followed = Following.query.filter_by(following_id=session['user_id'])
+        follow = [i for i in followed]
+        return render_template('follow.html',follow=follow,follower=follower, userid=userid)
     else:
         return redirect('/sign-in')
 
@@ -57,7 +78,8 @@ def follow():
 @app.route('/search')
 def search():
     if 'user_id' in session:
-        return render_template('search.html')
+        userid = session['user_id']
+        return render_template('search.html', userid=userid)
     else:
         return redirect('/sign-in')
 

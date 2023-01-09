@@ -1,4 +1,25 @@
 {% extends "base.html" %}
   {% block main %}
-      <h1>Follow</h1>
+  <div class="container-md my-4">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Profile</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% for conn in follow %}
+      <tr>
+        <th scope="row">{{loop.index}}</th>
+        <td>{{conn.name}}</td>
+        <td><a href="/{{conn.id}}">Click Hear</a></td>  
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
+  </div>
   {% endblock %} 
