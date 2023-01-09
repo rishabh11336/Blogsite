@@ -47,7 +47,9 @@ def profile(id):
             follower = len([i for i in following])
             followed = Following.query.filter_by(following_id=session['user_id'])
             follow = len([i for i in followed])
-            return render_template('profile.html', user=check[0], follower=follower, follow=follow, userid=userid)
+            qpost = Post.query.filter_by(id=userid)
+            post = len([i for i in qpost])
+            return render_template('profile.html', post=post, user=check[0], follower=follower, follow=follow, userid=userid)
         else:
             userid = session['user_id']
             user = User.query.filter_by(id=id)
@@ -57,7 +59,9 @@ def profile(id):
             follower = len([i for i in following])
             followed = Following.query.filter_by(following_id=id)
             follow = len([i for i in followed])
-            return render_template('profile.html', userid=userid, user=check[0], follower=follower, follow=follow)
+            qpost = Post.query.filter_by(id=id)
+            post = len([i for i in qpost])
+            return render_template('profile.html', post=post, userid=userid, user=check[0], follower=follower, follow=follow)
     else:
         return redirect('/sign-in')
 

@@ -1,5 +1,6 @@
 from main import db
-from sqlalchemy.sql import func
+from datetime import date, datetime, timedelta
+from sqlalchemy import func
 
 #Model
 
@@ -44,4 +45,4 @@ class Post(db.Model):
     post = db.Column(db.String(250))
     name = db.Column(db.String,   db.ForeignKey("user.name"), nullable=False)
     image = db.Column(db.String)
-    time = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)

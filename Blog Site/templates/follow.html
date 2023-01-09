@@ -1,6 +1,7 @@
 {% extends "base.html" %}
   {% block main %}
   <div class="container-md my-4">
+  <h2>Follow</h2>
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -22,4 +23,27 @@
     </tbody>
   </table>
   </div>
+
+  <div class="container-md my-4">
+    <h2>Follower</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Profile</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for conn in follower %}
+        <tr>
+          <th scope="row">{{loop.index}}</th>
+          <td>{{conn.following}}</td>
+          <td><a href="/{{conn.following_id}}">Click Hear</a></td>  
+        </tr>
+        {% endfor %}
+  
+      </tbody>
+    </table>
+    </div>
   {% endblock %} 
