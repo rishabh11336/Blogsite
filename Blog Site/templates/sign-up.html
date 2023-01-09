@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.84.0">
-    <title>Signin</title>
+    <title>Signup</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
 
@@ -45,7 +45,7 @@
   <body class="text-center">
     
 <main class="form-signin">
-  <form method="POST" action="/register">
+  <form method="POST" action="/register" enctype="multipart/form-data">
     <a href="/">
     <svg xmlns="http://www.w3.org/2000/svg" width="72" height="57" fill="currentColor" class="bi bi-compass" viewBox="0 0 16 16">
       <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016zm6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
@@ -69,6 +69,30 @@
       <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
       <label for="floatingPassword">Password</label>
     </div>
+    <div class="form-floating">
+      <p>upload your Avatar
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+          </ul>
+          {% endif %}
+        {% endwith %}
+      </p>
+      {% if filename %}
+        <div>
+          <img src="{{ url_for('display_image', filename=filename) }}">
+        </div>
+      {% endif %}
+      
+          <dl>
+          <p>
+            <input type="file" name="file" autocomplete="off" required>
+          </p>
+          </dl>
+    </div>
 
     <div>
       <label>Gender: </label>
@@ -82,12 +106,6 @@
 
     <div class="checkbox mb-3">
       <p>Already on Compass? <a href="/sign-in">Sign in</a></p>
-    </div>
-
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
     </div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
     <p class="mt-5 mb-3 text-muted">&copy; 2022-2023</p>
