@@ -49,7 +49,7 @@ def profile(id):
             follow = len([i for i in followed])
             qpost = Post.query.filter_by(id=userid)
             post = len([i for i in qpost])
-            return render_template('profile.html', post=post, user=check[0], follower=follower, follow=follow, userid=userid)
+            return render_template('profile.html', post=post, user=check[0], follower=follower, follow=follow, userid=userid, checkprofile='Edit Profile')
         else:
             userid = session['user_id']
             user = User.query.filter_by(id=id)
@@ -61,7 +61,7 @@ def profile(id):
             follow = len([i for i in followed])
             qpost = Post.query.filter_by(id=id)
             post = len([i for i in qpost])
-            return render_template('profile.html', post=post, userid=userid, user=check[0], follower=follower, follow=follow)
+            return render_template('profile.html', post=post, userid=userid, user=check[0], follower=follower, follow=follow, checkprofile='Follow/Unfollow')
     else:
         return redirect('/sign-in')
 
@@ -139,3 +139,28 @@ def register():
             if check:
                 session['user_id'] = check[0].id
                 return redirect('/')
+
+@app.route('/post', methods=['POST'])
+def post():
+    if request.method == "POST":
+        try:
+            userobject = User.query.filter_by(id=session['user_id'])
+            user = [i for i in userobject ]
+            title = request.form.get("title")
+            post = request.form.get("post")
+            filename = None
+            file = request.files['file']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            print(session['user_id'], user[0].name, filename, post, title)
+            updatepost = Post(id=session['user_id'], name=user[0].name, image=filename, post=post, title=title)
+            db.session.add(updatepost)
+            db.session.flush()
+        except Exception as e:
+            print('rollback')
+            db.session.rollback()
+            return "{}".format(e), "not posted"
+        else:
+            db.session.commit()
+            return redirect('/')

@@ -70,23 +70,7 @@
       <label for="floatingPassword">Password</label>
     </div>
     <div class="form-floating">
-      <p>upload your Avatar
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-          <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-          </ul>
-          {% endif %}
-        {% endwith %}
-      </p>
-      {% if filename %}
-        <div>
-          <img src="{{ url_for('display_image', filename=filename) }}">
-        </div>
-      {% endif %}
-      
+      <p>upload your Avatar</p>
           <dl>
           <p>
             <input type="file" name="file" autocomplete="off" required>

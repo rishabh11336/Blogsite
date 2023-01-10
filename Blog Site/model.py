@@ -42,6 +42,7 @@ class Post(db.Model):
     __tablename__ = 'post'
     id = db.Column(db.Integer,   db.ForeignKey("user.id"), nullable=False)
     post_id = db.Column(db.Integer, primary_key = True,  nullable=False)
+    title = db.Column(db.String)
     post = db.Column(db.String(250))
     name = db.Column(db.String,   db.ForeignKey("user.name"), nullable=False)
     image = db.Column(db.String)

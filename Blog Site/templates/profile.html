@@ -57,13 +57,14 @@
     <div class="p-5 mb-4 bg-light rounded-3">
 
       <div class="d-flex position-relative">
-        <img src="/static/{{user.profile_pic}}" class="flex-shrink-0 me-3" alt="...">
+        <img src="/static/{{user.profile_pic}}" class="flex-shrink-0 me-3" alt="..." width="200" height="200">
         <div>
           <h5 class="mt-0">{{user.name}}</h5>
           <p>{{user.bio}}</p>
           <p>{{user.sex}}</p>
           <p>{{user.contact_no}}</p>
           <p>{{user.email}}</p>
+          <button class="btn btn-outline-secondary" type="button">{{checkprofile}}</button>
           <a href="#" class="stretched-link">Go somewhere</a>
         </div>
       </div>
@@ -71,10 +72,10 @@
 
     <div class="row align-items-md-stretch">
       <div class="col-md-6">
-        <div class="h-100 p-5 text-bg-dark rounded-3">
-          <h2>Change the background</h2>
+        <div class="h-100 p-5 bg-light border rounded-3">
+          <h2>Latest Post</h2>
           <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
-          <button class="btn btn-outline-light" type="button">Example button</button>
+          <button class="btn btn-outline-secondary" type="button">Example button</button>
         </div>
       </div>
       <div class="col-md-6">
