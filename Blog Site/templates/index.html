@@ -15,23 +15,21 @@
     </form>
     </div>
   </div>
-   
+  
+  {% for post in posts %}
   <div class="container-lg px-4 py-4 post_border my-4">
   <div class="mb-3">
-  <p>Post Id</p>
-  <center class="post_border">Title</center>
-  <center class="post_border my-2"><img src="static/temp.jpg"></center>
-  <center class="post_border my-2">Post in full length text</center>
-  <p>Time Stamp</p>
+  <p>#{{post.post_id}} {{post.name}}</p>
+  <center class="post_border"><h3>{{post.title}}</h3></center>
+  {% if post.image %}
+  <center class="post_border my-2"><img src="static/{{post.image}}" width="640" height="360"></center>
+  {% endif %}
+  <center class="post_border my-2">{{post.post}}</center>
+  <p>{{post.time}}</p>
   </div>
   </div>
-  <div class="container-lg px-4 py-4 post_border my-2">
-    <div class="mb-3">
-    <p>Post Id</p>
-    <center class="post_border">Title</center>
-    <center class="post_border my-2">Post in full length text. If your customers are in the habit of missing their appointments, it’s probably because they’re not getting the reminders at the right time. Why not help them out and send the reminder as a text message. Remember, 95% of people read their text messages within the first three minutes of receipt.The text should contain important information, such as appointment time and venue. Plus, you can tell the customer what they’ll need for the appointment and include an option to reschedule or cancel. Here are a few helpful templates.</center>
-    <p>Time Stamp</p>
-    </div>
-    </div>
+  {% endfor %}
+
+
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
   {% endblock %} 

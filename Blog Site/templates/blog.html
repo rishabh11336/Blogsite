@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+  {% block main %}
+    {% for post in posts %}
+        <div class="container-lg px-4 py-4 post_border my-4">
+        <div class="mb-3">
+        <p>#{{post.post_id}} {{post.name}}</p>
+        <center class="post_border"><h3>{{post.title}}</h3></center>
+        {% if post.image %}
+        <center class="post_border my-2"><img src="/static/{{post.image}}" width="640" height="360"></center>
+        {% endif %}
+        <center class="post_border my-2">{{post.post}}</center>
+        <p>{{post.time}}</p>
+        </div>
+        </div>
+    {% endfor %}
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
+  {% endblock %} 

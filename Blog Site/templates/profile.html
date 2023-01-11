@@ -65,7 +65,6 @@
           <p>{{user.contact_no}}</p>
           <p>{{user.email}}</p>
           <button class="btn btn-outline-secondary" type="button">{{checkprofile}}</button>
-          <a href="#" class="stretched-link">Go somewhere</a>
         </div>
       </div>
     </div>
@@ -73,17 +72,21 @@
     <div class="row align-items-md-stretch">
       <div class="col-md-6">
         <div class="h-100 p-5 bg-light border rounded-3">
-          <h2>Latest Post</h2>
-          <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
-          <button class="btn btn-outline-secondary" type="button">Example button</button>
+          <p>#{{latest_post.post_id}}</p>
+          <h2>{{latest_post.title}}</h2>
+          <p>{{latest_post.post}}</p>
+          {% if latest_post.image %}
+          <center class="post_border my-2"><img src="static/{{latest_post.image}}" width="213" height="120"></center>
+          {% endif %}
+          <p>{{latest_post.time}}</p>
         </div>
       </div>
       <div class="col-md-6">
         <div class="h-100 p-5 bg-light border rounded-3">
           <center><h2>Follow/Follower</h2></center>
-          <center><h2><a href="/follow">{{follow}}/{{follower}}</a></h2></center>
+          <center><h2><a href="follow/{{id}}">{{follower}}/{{follow}}</a></h2></center>
           <center><h2>No of Post</h2></center>
-          <center><h2><a href="#">{{post}}</a></h2></center>
+          <center><h2><a href="/blog/{{id}}">{{post}}</a></h2></center>
         </div>
       </div>
     </div>

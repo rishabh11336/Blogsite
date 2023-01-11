@@ -14,7 +14,18 @@ def feeds():
     if 'user_id' in session:
         print(session['user_id'])
         userid = session['user_id']
-        return render_template("index.html", userid=userid)
+        following = Following.query.filter_by(id=session['user_id'])
+        post_list = []
+        for i in following:
+            list_of_post = Post.query.filter_by(id=i.following_id)
+            _list = [i for i in list_of_post]
+            post_list += _list
+        n = len(post_list)
+        for i in range(n):
+            for j in range(0, n-i-1):
+                if post_list[j].time > post_list[j+1].time:
+                    post_list[j], post_list[j+1] = post_list[j+1], post_list[j]
+        return render_template("index.html", userid=userid, posts=post_list[::-1])
     else:
         return redirect('/sign-in')
 
@@ -48,8 +59,9 @@ def profile(id):
             followed = Following.query.filter_by(following_id=session['user_id'])
             follow = len([i for i in followed])
             qpost = Post.query.filter_by(id=userid)
-            post = len([i for i in qpost])
-            return render_template('profile.html', post=post, user=check[0], follower=follower, follow=follow, userid=userid, checkprofile='Edit Profile')
+            post_list = [i for i in qpost]
+            post = len(post_list)
+            return render_template('profile.html', post=post, user=check[0], latest_post=post_list[-1], follower=follower, follow=follow, id=id, userid=userid, checkprofile='Edit Profile')
         else:
             userid = session['user_id']
             user = User.query.filter_by(id=id)
@@ -60,21 +72,30 @@ def profile(id):
             followed = Following.query.filter_by(following_id=id)
             follow = len([i for i in followed])
             qpost = Post.query.filter_by(id=id)
-            post = len([i for i in qpost])
-            return render_template('profile.html', post=post, userid=userid, user=check[0], follower=follower, follow=follow, checkprofile='Follow/Unfollow')
+            post_list = [i for i in qpost]
+            post = len(post_list)
+            return render_template('profile.html', post=post, latest_post=post_list[-1], userid=userid, user=check[0], follower=follower, id=id, follow=follow, checkprofile='Follow/Unfollow')
     else:
         return redirect('/sign-in')
 
 
-@app.route('/follow')
-def follow():
+@app.route('/follow/<int:id>')
+def follow(id):
     if 'user_id' in session:
-        userid = session['user_id']
-        following = Following.query.filter_by(id=session['user_id'])
-        follower = [i for i in following]
-        followed = Following.query.filter_by(following_id=session['user_id'])
-        follow = [i for i in followed]
-        return render_template('follow.html',follow=follow,follower=follower, userid=userid)
+        if session['user_id'] == id:
+            userid = session['user_id']
+            following = Following.query.filter_by(id=session['user_id'])
+            follower = [i for i in following]
+            followed = Following.query.filter_by(following_id=session['user_id'])
+            follow = [i for i in followed]
+            return render_template('follow.html',follow=follow,follower=follower, userid=userid)
+        else:
+            userid = session['user_id']
+            following = Following.query.filter_by(id=id)
+            follower = [i for i in following]
+            followed = Following.query.filter_by(following_id=id)
+            follow = [i for i in followed]
+            return render_template('follow.html',follow=follow,follower=follower, userid=userid)
     else:
         return redirect('/sign-in')
 
@@ -164,3 +185,26 @@ def post():
         else:
             db.session.commit()
             return redirect('/')
+
+@app.route('/blog/<int:id>')
+def blog(id):
+    if 'user_id' in session:
+        if session['user_id'] == id:
+            print(session['user_id'])
+            userid = session['user_id']
+            list_of_post = Post.query.filter_by(id=userid)
+            post_list = [i for i in list_of_post[::-1]]
+            return render_template("blog.html", userid=userid, posts=post_list)
+        else:
+            print(session['user_id'])
+            userid = session['user_id']
+            list_of_post = Post.query.filter_by(id=id)
+            post_list = [i for i in list_of_post[::-1]]
+            return render_template("blog.html", userid=userid, posts=post_list)
+    else:
+        return redirect('/sign-in')
+
+
+@app.route('/follow-action')
+def follow_action():
+    pass
