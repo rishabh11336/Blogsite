@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+  {% block main %}
+  <div class="container-md my-4">
+  <main class="form-signin">
+    <form method="POST" action="/profile-edit-action/{{userid}}" enctype="multipart/form-data">
+  
+      <div class="form-floating">
+        <input type="text" class="form-control" id="floatingInput" value="{{user.name}}" name="name" placeholder="First Last">
+        <label for="floatingInput">Name</label>
+      </div>
+      <div class="form-floating my-2">
+        <input type="number" class="form-control" id="floatingInput" value="{{user.contact_no}}" name="contact_no">
+        <label for="floatingInput">Contact No.</label>
+      </div>
+      <div class="form-floating my-2">
+        <input type="email" class="form-control" id="floatingInput" value="{{user.email}}" name="email" placeholder="name@example.com">
+        <label for="floatingInput">Email address</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="floatingInput" value="{{user.bio}}" name="bio" placeholder="Bio">
+        <label for="floatingInput">Bio</label>
+      </div>
+      <div class="form-floating my-2">
+        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+      </div>
+  
+      <div class="my-2">
+        <label>Gender: </label>
+        {% if user.sex == 'Male' %}
+        <input type="checkbox" name="sex" value="Male" checked/>
+        <label>Male</label>  
+        <input type="checkbox" name="sex" value="Female" />
+        <label>Female</label>
+        <input type="checkbox" name="sex" value="Other" />
+        <label>Other</label>
+        {% elif user.sex == 'Female' %}
+        <input type="checkbox" name="sex" value="Male" />
+        <label>Male</label>
+        <input type="checkbox" name="sex" value="Female" checked/>
+        <label>Female</label>
+        <input type="checkbox" name="sex" value="Other" />
+        <label>Other</label>
+        {% elif user.sex == 'Other' %}
+        <input type="checkbox" name="sex" value="Male" />
+        <label>Male</label>
+        <input type="checkbox" name="sex" value="Female" />
+        <label>Female</label>
+        <input type="checkbox" name="sex" value="Other" checked/>
+        <label>Other</label>
+        {% endif %}
+      </div>
+
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Update Profile</button>
+    </form>
+  </main>
+  </div>
+  {% endblock %}

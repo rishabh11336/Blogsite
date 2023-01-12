@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, session
+from flask import render_template, request, redirect, session, url_for
 from main import app
 from werkzeug.utils import secure_filename
 from model import *
@@ -25,7 +25,12 @@ def feeds():
             for j in range(0, n-i-1):
                 if post_list[j].time > post_list[j+1].time:
                     post_list[j], post_list[j+1] = post_list[j+1], post_list[j]
-        return render_template("index.html", userid=userid, posts=post_list[::-1])
+        likes_list = []
+        for post in post_list:
+            _like = Like.query.filter_by(post_id=post.post_id)
+            likes_list = likes_list + [len([i for i in _like])]
+        post_tuple = [(post_list[i], likes_list[i]) for i in range(n)]
+        return render_template("index.html", userid=userid, posts=post_tuple[::-1], likes=likes_list)
     else:
         return redirect('/sign-in')
 
@@ -61,7 +66,7 @@ def profile(id):
             qpost = Post.query.filter_by(id=userid)
             post_list = [i for i in qpost]
             post = len(post_list)
-            return render_template('profile.html', post=post, user=check[0], latest_post=post_list[-1], follower=follower, follow=follow, id=id, userid=userid, checkprofile='Edit Profile')
+            return render_template('profile.html', post=post, user=check[0], latest_post=post_list[-1], follower=follower, follow=follow, id=id, userid=userid, follow_check='user')
         else:
             userid = session['user_id']
             user = User.query.filter_by(id=id)
@@ -74,7 +79,9 @@ def profile(id):
             qpost = Post.query.filter_by(id=id)
             post_list = [i for i in qpost]
             post = len(post_list)
-            return render_template('profile.html', post=post, latest_post=post_list[-1], userid=userid, user=check[0], follower=follower, id=id, follow=follow, checkprofile='Follow/Unfollow')
+            following_check = Following.query.filter_by(following_id=id, id=userid)
+            follow_check = True if 1==len([i for i in following_check]) else False
+            return render_template('profile.html', follow_check=follow_check, post=post, latest_post=post_list[-1], userid=userid, user=check[0], follower=follower, id=id, follow=follow, checkprofile='Follow')
     else:
         return redirect('/sign-in')
 
@@ -194,17 +201,106 @@ def blog(id):
             userid = session['user_id']
             list_of_post = Post.query.filter_by(id=userid)
             post_list = [i for i in list_of_post[::-1]]
-            return render_template("blog.html", userid=userid, posts=post_list)
+            delete = True
+            n = len(post_list)
+            likes_list = []
+            for post in post_list:
+                _like = Like.query.filter_by(post_id=post.post_id)
+                likes_list = likes_list + [len([i for i in _like])]
+            post_tuple = [(post_list[i], likes_list[i]) for i in range(n)]
+            return render_template("blog.html", userid=userid, posts=post_tuple, delete=delete)
         else:
             print(session['user_id'])
             userid = session['user_id']
             list_of_post = Post.query.filter_by(id=id)
             post_list = [i for i in list_of_post[::-1]]
-            return render_template("blog.html", userid=userid, posts=post_list)
+            delete = False
+            n = len(post_list)
+            likes_list = []
+            for post in post_list:
+                _like = Like.query.filter_by(post_id=post.post_id)
+                likes_list = likes_list + [len([i for i in _like])]
+            post_tuple = [(post_list[i], likes_list[i]) for i in range(n)]
+            return render_template("blog.html", userid=userid, posts=post_tuple, delete=delete)
     else:
         return redirect('/sign-in')
 
 
-@app.route('/follow-action')
-def follow_action():
-    pass
+@app.route('/follow-action/<int:id>')
+def follow_action(id):
+    if 'user_id' in session:
+        try:
+            user = User.query.filter_by(id=session['user_id'])
+            check = [i for i in user]
+            following_user = User.query.filter_by(id=id)
+            check1 = [i for i in following_user]
+            update_following = Following(id=session['user_id'], name=check[0].name, following_id=id, following=check1[0].name)
+            db.session.add(update_following)
+            db.session.flush()
+        except Exception as e:
+            print('rollback')
+            db.session.rollback()
+            return "{}".format(e), "not posted"
+        else:
+            db.session.commit()
+            return redirect(url_for('profile', id=id))
+    else:
+        return redirect('/sign-in')
+
+@app.route('/unfollow-action/<int:id>')
+def unfollow_action(id):
+    if 'user_id' in session:
+        try:
+            Following.query.filter_by(id=session['user_id'], following_id=id).delete()
+            db.session.flush()
+        except Exception as e:
+            print('rollback')
+            db.session.rollback()
+            return "{}".format(e), "not posted"
+        else:
+            db.session.commit()
+            return redirect(url_for('profile', id=id))
+    else:
+        return redirect('/sign-in')
+
+@app.route('/profile-edit-action/<int:id>', methods=['GET','POST'])
+def profile_action(id):
+    if 'user_id' in session:
+        if session['user_id'] != id:
+            return redirect('/')
+        if request.method == "GET":
+            stud = User.query.filter_by(id=session['user_id'])
+            check = [i for i in stud]
+            return render_template("update_profile.html", user=check[0], userid=session['user_id'])
+
+        elif request.method == "POST":
+            try:
+                cemail = request.form.get("email")
+                cpassword = request.form.get("password")
+                ccontact = request.form.get("contact_no")
+                cname = request.form.get("name")
+                cbio = request.form.get("bio")
+                csex = request.form.getlist("sex")
+                for i in csex[:1]:
+                    user = User.query.filter_by(id=session['user_id'])
+                    user_db = [i for i in user]
+                    print(user_db[0].password,"db password", cpassword, "new password")
+                    if user_db[0].password == cpassword:
+                        user_db[0].email = cemail
+                        user_db[0].password = cpassword
+                        user_db[0].contact_no = ccontact
+                        user_db[0].sex = i
+                        user_db[0].name = cname
+                        user_db[0].bio = cbio
+                    else:
+                        return "Wrong Password"
+                db.session.flush()
+            except Exception as e:
+                print("rollback")
+                db.session.rollback()
+                return "{}".format(e),"not registered"
+            else:
+                db.session.commit()
+                return redirect(url_for('profile', id=id))
+    else:
+        return redirect('/sign-in')

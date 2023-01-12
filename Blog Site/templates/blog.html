@@ -1,6 +1,6 @@
 {% extends "base.html" %}
   {% block main %}
-    {% for post in posts %}
+    {% for post, like in posts %}
         <div class="container-lg px-4 py-4 post_border my-4">
         <div class="mb-3">
         <p>#{{post.post_id}} {{post.name}}</p>
@@ -9,7 +9,11 @@
         <center class="post_border my-2"><img src="/static/{{post.image}}" width="640" height="360"></center>
         {% endif %}
         <center class="post_border my-2">{{post.post}}</center>
-        <p>{{post.time}}</p>
+        <p class="">{{post.time}}</p>
+        <button type="button" class="btn btn-outline-success">Like <span class="badge bg-secondary">{{like}}</span></button>
+        {% if delete %}
+        <button type="button" class="btn btn-outline-danger">Delete</button>
+        {% endif %}
         </div>
         </div>
     {% endfor %}

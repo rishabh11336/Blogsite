@@ -59,12 +59,18 @@
       <div class="d-flex position-relative">
         <img src="/static/{{user.profile_pic}}" class="flex-shrink-0 me-3" alt="..." width="200" height="200">
         <div>
-          <h5 class="mt-0">{{user.name}}</h5>
-          <p>{{user.bio}}</p>
-          <p>{{user.sex}}</p>
-          <p>{{user.contact_no}}</p>
-          <p>{{user.email}}</p>
-          <button class="btn btn-outline-secondary" type="button">{{checkprofile}}</button>
+          <h5 class="mt-0">Name: {{user.name}}</h5>
+          <p><b>Bio:</b> {{user.bio}}</p>
+          <p><b>Sex:</b> {{user.sex}}</p>
+          <p><b>Contact:</b> {{user.contact_no}}</p>
+          <p><b>Em@il:</b> {{user.email}}</p>
+          {% if follow_check == 'user' %}
+          <button type="button" class="btn btn-outline-danger" href="#"><a href="/profile-edit-action/{{id}}">Edit Profile</a></button>
+          {% elif follow_check %}
+          <button type="button" class="btn btn-outline-danger" href="#"><a href="/unfollow-action/{{id}}">Unfollow</a></button>
+          {% else %}
+          <button class="btn btn-outline-secondary" type="button"><a href="/follow-action/{{id}}">Follow</a></button>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -83,7 +89,7 @@
       </div>
       <div class="col-md-6">
         <div class="h-100 p-5 bg-light border rounded-3">
-          <center><h2>Follow/Follower</h2></center>
+          <center><h2>Following/Follower</h2></center>
           <center><h2><a href="follow/{{id}}">{{follower}}/{{follow}}</a></h2></center>
           <center><h2>No of Post</h2></center>
           <center><h2><a href="/blog/{{id}}">{{post}}</a></h2></center>
