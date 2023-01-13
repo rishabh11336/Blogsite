@@ -3,7 +3,7 @@
     {% for post, like, user_like in posts %}
         <div class="container-lg px-4 py-4 post_border my-4">
         <div class="mb-3">
-        <p>#{{post.post_id}} {{post.name}}</p>
+        <p>#{{post.post_id}} <a href="/{{post.id}}">{{post.name}}</a></p>
         <center class="post_border"><h3>{{post.title}}</h3></center>
         {% if post.image %}
         <center class="post_border my-2"><img src="/static/{{post.image}}" width="640" height="360"></center>
