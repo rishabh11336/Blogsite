@@ -16,7 +16,7 @@
         <button type="button" class="btn btn-outline-success"><a href="/like-action/{{post.post_id}}">Like</a> <span class="badge bg-secondary">{{like}}</span></button>
         {% endif %}
         {% if delete %}
-        <button type="button" class="btn btn-outline-danger">Delete</button>
+        <button type="button" class="btn btn-outline-danger"><a href="/delete-post/{{post.post_id}}">Delete</a></button>
         {% endif %}
         </div>
         </div>

@@ -334,16 +334,35 @@ def like_action(post_id):
 def unlike_action(post_id):
     if 'user_id' in session:
         try:
-            user = User.query.filter_by(id=session['user_id'])
-            check = [i for i in user]
             Like.query.filter_by(post_id=post_id, user_id=session['user_id']).delete()
             db.session.flush()
         except Exception as e:
             print("rollback")
             db.session.rollback()
-            return "{}".format(e),"not registered"
+            return "{}".format(e),"not unliked"
         else:
             db.session.commit()
             return redirect('/')
     else:
         return redirect('/sign-in')
+
+@app.route('/delete-post/<int:post_id>')
+def delete_post(post_id):
+    if 'user_id' in session:
+        try:
+            Like.query.filter_by(post_id=post_id).delete()
+            Post.query.filter_by(post_id=post_id, id=session['user_id']).delete()
+            db.session.flush()
+        except Exception as e:
+            print("rollback")
+            db.session.rollback()
+            return "{}".format(e), "Not Deleted"
+        else:
+            db.session.commit()
+            return redirect(url_for('blog', id=session['user_id']))
+    else:
+        return redirect('/sign-in')
+
+@app.route('/edit-post/<int:post_id>')
+def edit_post(post_id):
+    pass
