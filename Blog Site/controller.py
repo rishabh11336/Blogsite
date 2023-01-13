@@ -26,10 +26,12 @@ def feeds():
                 if post_list[j].time > post_list[j+1].time:
                     post_list[j], post_list[j+1] = post_list[j+1], post_list[j]
         likes_list = []
+        user_like = []
         for post in post_list:
             _like = Like.query.filter_by(post_id=post.post_id)
             likes_list = likes_list + [len([i for i in _like])]
-        post_tuple = [(post_list[i], likes_list[i]) for i in range(n)]
+            user_like = user_like + [ True if userid in [i.user_id for i in _like] else False ]
+        post_tuple = [(post_list[i], likes_list[i], user_like[i]) for i in range(n)]
         return render_template("index.html", userid=userid, posts=post_tuple[::-1], likes=likes_list)
     else:
         return redirect('/sign-in')
@@ -204,10 +206,12 @@ def blog(id):
             delete = True
             n = len(post_list)
             likes_list = []
+            user_like = []
             for post in post_list:
                 _like = Like.query.filter_by(post_id=post.post_id)
                 likes_list = likes_list + [len([i for i in _like])]
-            post_tuple = [(post_list[i], likes_list[i]) for i in range(n)]
+                user_like = user_like + [ True if userid in [i.user_id for i in _like] else False ]
+            post_tuple = [(post_list[i], likes_list[i], user_like[i]) for i in range(n)]
             return render_template("blog.html", userid=userid, posts=post_tuple, delete=delete)
         else:
             print(session['user_id'])
@@ -217,10 +221,12 @@ def blog(id):
             delete = False
             n = len(post_list)
             likes_list = []
+            user_like = []
             for post in post_list:
                 _like = Like.query.filter_by(post_id=post.post_id)
                 likes_list = likes_list + [len([i for i in _like])]
-            post_tuple = [(post_list[i], likes_list[i]) for i in range(n)]
+                user_like = user_like + [ True if userid in [i.user_id for i in _like] else False ]
+            post_tuple = [(post_list[i], likes_list[i], user_like[i]) for i in range(n)]
             return render_template("blog.html", userid=userid, posts=post_tuple, delete=delete)
     else:
         return redirect('/sign-in')
@@ -302,5 +308,42 @@ def profile_action(id):
             else:
                 db.session.commit()
                 return redirect(url_for('profile', id=id))
+    else:
+        return redirect('/sign-in')
+
+@app.route('/like-action/<int:post_id>')
+def like_action(post_id):
+    if 'user_id' in session:
+        try:
+            user = User.query.filter_by(id=session['user_id'])
+            check = [i for i in user]
+            update_like = Like(post_id=post_id, user_id=session['user_id'], name=check[0].name )
+            db.session.add(update_like)
+            db.session.flush()
+        except Exception as e:
+            print("rollback")
+            db.session.rollback()
+            return "{}".format(e),"not registered"
+        else:
+            db.session.commit()
+            return redirect('/')
+    else:
+        return redirect('/sign-in')
+
+@app.route('/unlike-action/<int:post_id>')
+def unlike_action(post_id):
+    if 'user_id' in session:
+        try:
+            user = User.query.filter_by(id=session['user_id'])
+            check = [i for i in user]
+            Like.query.filter_by(post_id=post_id, user_id=session['user_id']).delete()
+            db.session.flush()
+        except Exception as e:
+            print("rollback")
+            db.session.rollback()
+            return "{}".format(e),"not registered"
+        else:
+            db.session.commit()
+            return redirect('/')
     else:
         return redirect('/sign-in')

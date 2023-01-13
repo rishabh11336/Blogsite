@@ -19,6 +19,7 @@ class Like(db.Model):
     __tablename__ = 'like'
     like_id = db.Column(db.Integer, primary_key = True,  nullable=False)
     post_id = db.Column(db.Integer,   db.ForeignKey("post.post_id"), nullable=False)
+    user_id = db.Column(db.Integer,   db.ForeignKey("user.id"), nullable=False)
     name = db.Column(db.String,   db.ForeignKey("user.name"), nullable=False)
 
 class Following(db.Model):

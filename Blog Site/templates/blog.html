@@ -1,6 +1,6 @@
 {% extends "base.html" %}
   {% block main %}
-    {% for post, like in posts %}
+    {% for post, like, user_like in posts %}
         <div class="container-lg px-4 py-4 post_border my-4">
         <div class="mb-3">
         <p>#{{post.post_id}} {{post.name}}</p>
@@ -10,7 +10,11 @@
         {% endif %}
         <center class="post_border my-2">{{post.post}}</center>
         <p class="">{{post.time}}</p>
-        <button type="button" class="btn btn-outline-success">Like <span class="badge bg-secondary">{{like}}</span></button>
+        {% if user_like %}
+        <button type="button" class="btn btn-outline-primary"><a href="/unlike-action/{{post.post_id}}">unLike</a> <span class="badge bg-secondary">{{like}}</span></button>
+        {% else %}
+        <button type="button" class="btn btn-outline-success"><a href="/like-action/{{post.post_id}}">Like</a> <span class="badge bg-secondary">{{like}}</span></button>
+        {% endif %}
         {% if delete %}
         <button type="button" class="btn btn-outline-danger">Delete</button>
         {% endif %}
