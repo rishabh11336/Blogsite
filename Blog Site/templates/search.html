@@ -1,4 +1,25 @@
 {% extends "base.html" %}
   {% block main %}
-      <h1>search</h1>
+    {% for user, follow_check in user_list %}
+    <div class="container py-4">
+      <div class="p-5 mb-4 bg-light rounded-3">
+
+        <div class="d-flex position-relative">
+          <a href="/{{user.id}}"><img src="/static/{{user.profile_pic}}" class="flex-shrink-0 me-3" alt="..." width="200" height="200"></a>
+          <div>
+            <h5 class="mt-0">Name: {{user.name}}</h5>
+            <p><b>Bio:</b> {{user.bio}}</p>
+            <p><b>Sex:</b> {{user.sex}}</p>
+            <p><b>Contact:</b> {{user.contact_no}}</p>
+            <p><b>Em@il:</b> {{user.email}}</p>
+            {% if follow_check %}
+            <button type="button" class="btn btn-outline-danger" href="#"><a href="/unfollow-action/{{user.id}}">Unfollow</a></button>
+            {% else %}
+            <button class="btn btn-outline-success" type="button"><a href="/follow-action/{{user.id}}">Follow</a></button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
   {% endblock %} 

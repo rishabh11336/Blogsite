@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+  {% block main %}
+  <div class="container-lg px-4 py-4 post_border my-4">
+    <form method="POST" action="/edit-post/{{post.post_id}}" enctype="multipart/form-data">
+        <div class="mb-3">
+        <p>#{{post.post_id}} <a href="/{{post.id}}">{{post.name}}</a></p>
+        <input class="form-control" type="text" name="title" placeholder="Title" value="{{post.title}}" aria-label="Title example">
+        {% if post.image %}
+            <center class="post_border my-2"><img src="/static/{{post.image}}" width="640" height="360"></center>
+        {% endif %}
+        <dl>
+            <p>
+              <input type="file" name="file" autocomplete="off">
+            </p>
+        </dl>
+        <textarea class="form-control my-2" name="post" id="exampleFormControlTextarea1" rows="3">{{post.post}}</textarea>
+        <p class="">{{post.time}}</p>
+        </div>
+    
+    <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
+        <label for="floatingPassword">Password</label>
+    </div>
+    <button type="button" class="btn btn-outline-danger"><a href="/delete-post/{{post.post_id}}">Delete</a></button>
+    <button class="btn btn-outline-success my-2" type="submit">Edit Post</button>
+    </form>
+    <p class="">{{post.time}}</p>
+  </div>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
+  {% endblock %} 

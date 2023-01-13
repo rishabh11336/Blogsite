@@ -109,11 +109,20 @@ def follow(id):
         return redirect('/sign-in')
 
 
-@app.route('/search')
+@app.route('/search', methods=['GET','POST'])
 def search():
     if 'user_id' in session:
         userid = session['user_id']
-        return render_template('search.html', userid=userid)
+        search = request.form.get('search')
+        print('search', search)
+        users = User.query.all()
+        user_list = []
+        for user in users:
+            if user.name == search or user.email == search:
+                following_check = Following.query.filter_by(following_id=user.id, id=userid)
+                follow_check = True if 1==len([i for i in following_check]) else False
+                user_list += [(user,follow_check)] 
+        return render_template('search.html', userid=userid, user_list=user_list)
     else:
         return redirect('/sign-in')
 
@@ -363,6 +372,45 @@ def delete_post(post_id):
     else:
         return redirect('/sign-in')
 
-@app.route('/edit-post/<int:post_id>')
+@app.route('/edit-post/<int:post_id>', methods=['POST', 'GET'])
 def edit_post(post_id):
-    pass
+    if 'user_id' in session:
+        post = Post.query.filter_by(post_id=post_id)
+        check = [i for i in post]
+        if session['user_id'] != check[0].id:
+            return redirect('/')
+        if request.method == "GET":
+            return render_template("edit_post.html", post=check[0], userid=session['user_id'])
+
+        elif request.method == "POST":
+            try:
+                userobject = User.query.filter_by(id=session['user_id'])
+                user = [i for i in userobject ]
+                title = request.form.get("title")
+                post = request.form.get("post")
+                filename = None
+                file = request.files['file']
+                password = request.form.get("password")
+                if file and allowed_file(file.filename):
+                    filename = secure_filename(file.filename)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                print(session['user_id'], user[0].name, filename, post, title)
+                updatepost = Post.query.filter_by(post_id=post_id)
+                if password == user[0].password:
+                    for i in updatepost:
+                        if filename is not None:
+                            i.image=filename
+                        i.post=post
+                        i.title=title
+                else:
+                    return "Wrong Password"
+                db.session.flush()
+            except Exception as e:
+                print('rollback')
+                db.session.rollback()
+                return "{}".format(e), "not posted"
+            else:
+                db.session.commit()
+                return redirect(url_for('blog', id=session['user_id']))
+    else:
+        return redirect('/sign-in')

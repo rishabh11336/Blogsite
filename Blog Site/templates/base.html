@@ -36,9 +36,9 @@
                 <a class="nav-link active" href="/follow/{{userid}}">Network</a>
               </li>
             </ul>
-            <form class="d-flex mx-2">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <a href="/search" class="btn btn-light btn-outline-success" type="submit">Search</a>
+            <form class="d-flex mx-2" action="/search" method="POST">
+              <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="search" required>
+              <button class="btn btn-light btn-outline-success" type="submit">Search</button>
             </form>
             <form class="d-flex mx-1">
                 <a href="/logout" class="btn btn-light btn-outline-success" type="submit">Logout</a>
