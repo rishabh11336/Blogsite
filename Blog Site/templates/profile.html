@@ -74,19 +74,24 @@
         </div>
       </div>
     </div>
-
+    
     <div class="row align-items-md-stretch">
       <div class="col-md-6">
         <div class="h-100 p-5 bg-light border rounded-3">
+          {% if latest_post %}
           <p>#{{latest_post.post_id}}</p>
           <h2>{{latest_post.title}}</h2>
           <p>{{latest_post.post}}</p>
-          {% if latest_post.image %}
-          <center class="post_border my-2"><img src="static/{{latest_post.image}}" width="213" height="120"></center>
-          {% endif %}
+            {% if latest_post.image %}
+            <center class="post_border my-2"><img src="static/{{latest_post.image}}" width="213" height="120"></center>
+            {% endif %}
           <p>{{latest_post.time}}</p>
+          {% else %}
+          <h4>No Post Yet!</h4>
+          {% endif %}
         </div>
       </div>
+      
       <div class="col-md-6">
         <div class="h-100 p-5 bg-light border rounded-3">
           <center><h2>Following/Follower</h2></center>

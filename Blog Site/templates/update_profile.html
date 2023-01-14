@@ -5,23 +5,23 @@
     <form method="POST" action="/profile-edit-action/{{userid}}" enctype="multipart/form-data">
   
       <div class="form-floating">
-        <input type="text" class="form-control" id="floatingInput" value="{{user.name}}" name="name" placeholder="First Last">
+        <input type="text" class="form-control" id="floatingInput" value="{{user.name}}" name="name" placeholder="First Last" required>
         <label for="floatingInput">Name</label>
       </div>
       <div class="form-floating my-2">
-        <input type="number" class="form-control" id="floatingInput" value="{{user.contact_no}}" name="contact_no">
+        <input type="number" class="form-control" id="floatingInput" value="{{user.contact_no}}" name="contact_no" required>
         <label for="floatingInput">Contact No.</label>
       </div>
       <div class="form-floating my-2">
-        <input type="email" class="form-control" id="floatingInput" value="{{user.email}}" name="email" placeholder="name@example.com">
+        <input type="email" class="form-control" id="floatingInput" value="{{user.email}}" name="email" placeholder="name@example.com" required>
         <label for="floatingInput">Email address</label>
       </div>
       <div class="form-floating">
-        <input type="text" class="form-control" id="floatingInput" value="{{user.bio}}" name="bio" placeholder="Bio">
+        <input type="text" class="form-control" id="floatingInput" value="{{user.bio}}" name="bio" placeholder="Bio" required>
         <label for="floatingInput">Bio</label>
       </div>
       <div class="form-floating my-2">
-        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
         <label for="floatingPassword">Password</label>
       </div>
   

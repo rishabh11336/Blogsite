@@ -4,8 +4,8 @@
     <div class="mb-3">
       <form method="POST" action="/post" enctype="multipart/form-data">
       <label for="exampleFormControlTextarea1" class="form-label">Write your Post...</label>
-      <input class="form-control" type="text" name="title" placeholder="Title" aria-label="Title example">
-      <textarea class="form-control my-2" name="post" id="exampleFormControlTextarea1" rows="3"></textarea>
+      <input class="form-control" type="text" name="title" placeholder="Title" aria-label="Title example" required>
+      <textarea class="form-control my-2" name="post" id="exampleFormControlTextarea1" rows="3" required></textarea>
       <dl>
         <p>
           <input type="file" name="file" autocomplete="off">
@@ -15,25 +15,34 @@
     </form>
     </div>
   </div>
-  
-  {% for post, like, user_like in posts %}
-  <div class="container-lg px-4 py-4 post_border my-4">
-  <div class="mb-3">
-  <p>#{{post.post_id}} <a href="/{{post.id}}">{{post.name}}</a></p>
-  <center class="post_border"><h3>{{post.title}}</h3></center>
-  {% if post.image %}
-  <center class="post_border my-2"><img src="static/{{post.image}}" width="640" height="360"></center>
-  {% endif %}
-  <center class="post_border my-2">{{post.post}}</center>
-  <p>{{post.time}}</p>
-  {% if user_like %}
-  <button type="button" class="btn btn-outline-primary"><a href="/unlike-action/{{post.post_id}}">unLike</a> <span class="badge bg-secondary">{{like}}</span></button>
+
+  {% if posts %}
+    {% for post, like, user_like in posts %}
+    <div class="container-lg px-4 py-4 post_border my-4">
+    <div class="mb-3">
+    <p>#{{post.post_id}} <a href="/{{post.id}}">{{post.name}}</a></p>
+    <center class="post_border"><h3>{{post.title}}</h3></center>
+    {% if post.image %}
+    <center class="post_border my-2"><img src="static/{{post.image}}" width="640" height="360"></center>
+    {% endif %}
+    <center class="post_border my-2">{{post.post}}</center>
+    <p>{{post.time}}</p>
+    {% if user_like %}
+    <button type="button" class="btn btn-outline-primary"><a href="/unlike-action/{{post.post_id}}">unLike</a> <span class="badge bg-secondary">{{like}}</span></button>
+    {% else %}
+    <button type="button" class="btn btn-outline-success"><a href="/like-action/{{post.post_id}}">Like</a> <span class="badge bg-secondary">{{like}}</span></button>
+    {% endif %}
+    </div>
+    </div>
+    {% endfor %}
+
   {% else %}
-  <button type="button" class="btn btn-outline-success"><a href="/like-action/{{post.post_id}}">Like</a> <span class="badge bg-secondary">{{like}}</span></button>
+    <div class="container-lg px-4 py-4 post_border my-4">
+    <div class="mb-3">
+    <center><h2>Follow someone to get user feed</h2></center>
+    </div>
+    </div>
   {% endif %}
-  </div>
-  </div>
-  {% endfor %}
 
 
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">

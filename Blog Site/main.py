@@ -28,7 +28,7 @@ from controller import *
 
 #All restful controler
 from api import UserAPI
-api.add_resource(UserAPI,"/api/user")
+api.add_resource(UserAPI, '/users/', '/users/<int:user_id>')
 
 if __name__ == '__main__':
     app.run(debug=True)

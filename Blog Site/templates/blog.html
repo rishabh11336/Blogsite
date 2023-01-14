@@ -1,5 +1,6 @@
 {% extends "base.html" %}
   {% block main %}
+  {% if posts %}
     {% for post, like, user_like in posts %}
         <div class="container-lg px-4 py-4 post_border my-4">
         <div class="mb-3">
@@ -21,6 +22,13 @@
         </div>
         </div>
     {% endfor %}
+  {% else %}
+      <div class="container-lg px-4 py-4 post_border my-4">
+      <div class="mb-3">
+      <center><h2>No! Blogs Yet!</h2></center>
+      </div>
+      </div>
+  {% endif %}
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
   {% endblock %} 

@@ -31,8 +31,8 @@ def feeds():
             _like = Like.query.filter_by(post_id=post.post_id)
             likes_list = likes_list + [len([i for i in _like])]
             user_like = user_like + [ True if userid in [i.user_id for i in _like] else False ]
-        post_tuple = [(post_list[i], likes_list[i], user_like[i]) for i in range(n)]
-        return render_template("index.html", userid=userid, posts=post_tuple[::-1], likes=likes_list)
+        post_tuple = [(post_list[i], likes_list[i], user_like[i]) for i in range(n-1,-1,-1)]
+        return render_template("index.html", userid=userid, posts=post_tuple, likes=likes_list)
     else:
         return redirect('/sign-in')
 
@@ -66,9 +66,15 @@ def profile(id):
             followed = Following.query.filter_by(following_id=session['user_id'])
             follow = len([i for i in followed])
             qpost = Post.query.filter_by(id=userid)
+            print(qpost,'qpost')
             post_list = [i for i in qpost]
             post = len(post_list)
-            return render_template('profile.html', post=post, user=check[0], latest_post=post_list[-1], follower=follower, follow=follow, id=id, userid=userid, follow_check='user')
+            print(post_list)
+            if post_list != []:
+                post_list = post_list[-1]
+            else:
+                post_list = None
+            return render_template('profile.html', post=post, user=check[0], latest_post=post_list, follower=follower, follow=follow, id=id, userid=userid, follow_check='user')
         else:
             userid = session['user_id']
             user = User.query.filter_by(id=id)
@@ -81,9 +87,13 @@ def profile(id):
             qpost = Post.query.filter_by(id=id)
             post_list = [i for i in qpost]
             post = len(post_list)
+            if post_list != []:
+                post_list = post_list[-1]
+            else:
+                post_list = None
             following_check = Following.query.filter_by(following_id=id, id=userid)
             follow_check = True if 1==len([i for i in following_check]) else False
-            return render_template('profile.html', follow_check=follow_check, post=post, latest_post=post_list[-1], userid=userid, user=check[0], follower=follower, id=id, follow=follow, checkprofile='Follow')
+            return render_template('profile.html', follow_check=follow_check, post=post, latest_post=post_list, userid=userid, user=check[0], follower=follower, id=id, follow=follow, checkprofile='Follow')
     else:
         return redirect('/sign-in')
 
@@ -221,6 +231,10 @@ def blog(id):
                 likes_list = likes_list + [len([i for i in _like])]
                 user_like = user_like + [ True if userid in [i.user_id for i in _like] else False ]
             post_tuple = [(post_list[i], likes_list[i], user_like[i]) for i in range(n)]
+            if post_tuple != []:
+                post_tuple = post_tuple
+            else:
+                post_tuple = None
             return render_template("blog.html", userid=userid, posts=post_tuple, delete=delete)
         else:
             print(session['user_id'])
