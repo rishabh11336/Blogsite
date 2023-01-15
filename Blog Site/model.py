@@ -3,7 +3,7 @@ from datetime import date, datetime, timedelta
 from sqlalchemy import func
 
 #Model
-
+#Model for User table
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column('id', db.Integer, primary_key = True)
@@ -15,6 +15,7 @@ class User(db.Model):
     profile_pic = db.Column(db.String)  #to save url for pics
     bio = db.Column(db.String(250))
 
+#Model for like/unlike table
 class Like(db.Model):
     __tablename__ = 'like'
     like_id = db.Column(db.Integer, primary_key = True,  nullable=False)
@@ -22,6 +23,7 @@ class Like(db.Model):
     user_id = db.Column(db.Integer,   db.ForeignKey("user.id"), nullable=False)
     name = db.Column(db.String,   db.ForeignKey("user.name"), nullable=False)
 
+#Model for follow/unfollow table
 class Following(db.Model):
     __tablename__ = 'following'
     follow_id = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -29,6 +31,8 @@ class Following(db.Model):
     name = db.Column(db.String,   db.ForeignKey("user.name"), nullable=False)
     following = db.Column(db.String,   db.ForeignKey("user.name"), nullable=False)
     following_id = db.Column(db.Integer,   db.ForeignKey("user.id"), nullable=False)
+
+#for Mad-2 project not implemented yet 
 '''
 class Comment(db.Model):
     __tablename__ = 'comment'
@@ -39,6 +43,8 @@ class Comment(db.Model):
     comment = db.Column(db.String(250))
     time = db.Column(db.DateTime(timezone=True), server_default=func.now())
 '''
+
+#Model for blog/post table
 class Post(db.Model):
     __tablename__ = 'post'
     id = db.Column(db.Integer,   db.ForeignKey("user.id"), nullable=False)

@@ -26,9 +26,10 @@ app.app_context().push()
 #controller
 from controller import *
 
-#All restful controler
-from api import UserAPI
+#All restfulAPI controler
+from api import UserAPI, PostAPI
 api.add_resource(UserAPI, '/users/', '/users/<int:user_id>')
+api.add_resource(PostAPI, '/posts/', '/posts/<int:post_id>')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)

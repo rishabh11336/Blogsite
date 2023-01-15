@@ -3,6 +3,7 @@ from flask import request
 from main import db
 from model import *
 
+#UserAPI for CRUD
 class UserAPI(Resource):
     def get(self, user_id=None):
         if user_id:
@@ -13,12 +14,9 @@ class UserAPI(Resource):
                 'sex': user.sex,
                 'conatct': user.contact_no,
                 'Bio': user.bio,
-                'Image': "127.0.0.1:5000"+user.profile_pic}, 200
+                'Image': "127.0.0.1:8080/static/"+user.profile_pic}, 200
             else:
                 return {'message': 'User not found'}, 404
-        else:
-            users = User.query.all()
-            return [user.to_dict() for user in users]
 
     def post(self):
         data = request.get_json()
@@ -89,3 +87,69 @@ class UserAPI(Resource):
             return {'message': 'User deleted successfully'}, 200
         else:
             return {'message': 'User not found'}, 404
+
+#Post/Blog API for CRUD
+class PostAPI(Resource):
+    def get(self, post_id=None):
+        if post_id:
+            post = Post.query.filter_by(post_id=post_id).first()
+            if post:
+                if post.image:
+                    return {"post_id":post.post_id,
+                    "user_id": post.id,
+                    "username": post.name,
+                    "title": post.title,
+                    "blog": post.post,
+                    "image": "127.0.0.1:8080/static/"+post.image,
+                    "time": str(post.time)}, 200
+                else:
+                    return {"post_id":post.post_id,
+                "user_id": post.id,
+                "username": post.name,
+                "title": post.title,
+                "blog": post.post,
+                "time": str(post.time)}, 200
+            else:
+                return {'message': 'Post not found'}, 404
+
+    def post(self):
+        data = request.get_json()
+        user_id = data.get('user_id')
+        post_text = data.get('post')
+        post_image = "temp.jpg"
+        post_title = data.get('title')
+        user_name = data.get('name')
+        time = datetime.utcnow()
+
+        post = Post(id=user_id, post=post_text, image=post_image, title=post_title, name=user_name, time=time)
+        db.session.add(post)
+        db.session.commit()
+
+        return {'message': 'Post created successfully'}, 201
+
+    def put(self, post_id):
+        data = request.get_json()
+        post_text = data.get('post')
+        post_title = data.get('title')
+
+        post = Post.query.filter_by(post_id=post_id).first()
+        if post:
+            post.post = post_text
+            post.title = post_title
+            db.session.commit()
+            return {'message': 'Post updated successfully'}
+        else:
+            return {'message': 'Post not found'}, 404
+
+    def delete(self, post_id):
+        post = Post.query.filter_by(post_id=post_id).first()
+        likes = Like.query.filter_by(post_id=post_id)
+        for like in likes:
+            if like:
+                db.session.delete(like)
+        if post:
+            db.session.delete(post)
+            db.session.commit()
+            return {'message': 'Post deleted successfully'}
+        else:
+            return {'message': 'Post not found'}, 404

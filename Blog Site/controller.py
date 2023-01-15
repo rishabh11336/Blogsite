@@ -4,10 +4,12 @@ from werkzeug.utils import secure_filename
 from model import *
 import os
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+#Allowed set of file format
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+#Home function
 @app.route('/')
 @app.route('/home')
 def feeds():
@@ -36,7 +38,7 @@ def feeds():
     else:
         return redirect('/sign-in')
 
-
+#to fetch signin page
 @app.route('/sign-in', methods=['POST', 'GET'])
 def sign_in():
     if 'user_id' in session:
@@ -44,7 +46,7 @@ def sign_in():
         return render_template("index.html", userid=userid)
     return render_template('sign-in.html')
 
-
+#to fetch signup page
 @app.route('/sign-up')
 def sign_up():
     if 'user_id' in session:
@@ -52,7 +54,7 @@ def sign_up():
         return render_template("index.html", userid=userid)
     return render_template('sign-up.html')
 
-
+#to fetch profile page if userid is same as in session follow_check will pass string and it will produce edit button on profile page otherwise follow/unfollow and post gives no. of post
 @app.route('/<int:id>')
 def profile(id):
     if 'user_id' in session:
@@ -98,6 +100,7 @@ def profile(id):
         return redirect('/sign-in')
 
 
+#to fetch following follower list based on user id as by clicking following/follower on other profile or network for user 
 @app.route('/follow/<int:id>')
 def follow(id):
     if 'user_id' in session:
@@ -118,7 +121,7 @@ def follow(id):
     else:
         return redirect('/sign-in')
 
-
+#to fetch user by name or email rightnow it is case sensitive so search "abhay" or rish@gmail.com or check database for same
 @app.route('/search', methods=['GET','POST'])
 def search():
     if 'user_id' in session:
@@ -131,12 +134,15 @@ def search():
             if user.name == search or user.email == search:
                 following_check = Following.query.filter_by(following_id=user.id, id=userid)
                 follow_check = True if 1==len([i for i in following_check]) else False
+                if user.id == userid:
+                    follow_check = 'user'
                 user_list += [(user,follow_check)] 
         return render_template('search.html', userid=userid, user_list=user_list)
     else:
         return redirect('/sign-in')
 
 
+#to authenticate login session by checking email and password
 @app.route('/login-authentication', methods=['POST'])
 def login():
     cemail = request.form.get("email")
@@ -153,6 +159,7 @@ def login():
         return redirect('/')
 
 
+#to logout and end session
 @app.route('/logout')
 def logout():
     session.pop('user_id')
@@ -160,6 +167,7 @@ def logout():
     return redirect('/')
 
 
+#to register new user using post method
 @app.route('/register', methods=['POST'])
 def register():
     if request.method == "POST":
@@ -189,6 +197,7 @@ def register():
                 session['user_id'] = check[0].id
                 return redirect('/')
 
+#to post new post on feed by user on home page
 @app.route('/post', methods=['POST'])
 def post():
     if request.method == "POST":
@@ -214,6 +223,8 @@ def post():
             db.session.commit()
             return redirect('/')
 
+
+#to fetch all the blogs/post written by user or other
 @app.route('/blog/<int:id>')
 def blog(id):
     if 'user_id' in session:
@@ -255,6 +266,7 @@ def blog(id):
         return redirect('/sign-in')
 
 
+#to make user follow others by using button on profile and search page
 @app.route('/follow-action/<int:id>')
 def follow_action(id):
     if 'user_id' in session:
@@ -263,7 +275,7 @@ def follow_action(id):
             check = [i for i in user]
             following_user = User.query.filter_by(id=id)
             check1 = [i for i in following_user]
-            update_following = Following(id=session['user_id'], name=check[0].name, following_id=id, following=check1[0].name)
+            update_following =Following(id=session['user_id'], name=check[0].name, following_id=id, following=check1[0].name)
             db.session.add(update_following)
             db.session.flush()
         except Exception as e:
@@ -276,6 +288,8 @@ def follow_action(id):
     else:
         return redirect('/sign-in')
 
+
+#to make user unfollow others by using button on profile and search page
 @app.route('/unfollow-action/<int:id>')
 def unfollow_action(id):
     if 'user_id' in session:
@@ -292,6 +306,7 @@ def unfollow_action(id):
     else:
         return redirect('/sign-in')
 
+#to fetch edit page and edit profile data using post method
 @app.route('/profile-edit-action/<int:id>', methods=['GET','POST'])
 def profile_action(id):
     if 'user_id' in session:
@@ -334,6 +349,7 @@ def profile_action(id):
     else:
         return redirect('/sign-in')
 
+#to preform like for any post by user 
 @app.route('/like-action/<int:post_id>')
 def like_action(post_id):
     if 'user_id' in session:
@@ -353,6 +369,8 @@ def like_action(post_id):
     else:
         return redirect('/sign-in')
 
+
+#to preform unlike for any post by user
 @app.route('/unlike-action/<int:post_id>')
 def unlike_action(post_id):
     if 'user_id' in session:
@@ -369,6 +387,8 @@ def unlike_action(post_id):
     else:
         return redirect('/sign-in')
 
+
+#to delete post on edit page of post found on blog page
 @app.route('/delete-post/<int:post_id>')
 def delete_post(post_id):
     if 'user_id' in session:
@@ -386,6 +406,7 @@ def delete_post(post_id):
     else:
         return redirect('/sign-in')
 
+#to fetch edit post page and edit post using post method using post method
 @app.route('/edit-post/<int:post_id>', methods=['POST', 'GET'])
 def edit_post(post_id):
     if 'user_id' in session:
