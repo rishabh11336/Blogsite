@@ -11,3 +11,5 @@ https://medium.com/@asusrishabh/requirements-txt-in-python-947b0b43bbe6
 <strong>command: <i>pip install -r requirment.txt</i></strong><br>
 <h2> To run flask server</h2>
 <strong><i>python main.py</i></strong>
+
+### Wireframe: Blog.png
