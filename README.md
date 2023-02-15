@@ -44,7 +44,7 @@ DELETE:- localhost:8080/posts/{postid}<br>
 ## DB Schema Design
 ![image](https://user-images.githubusercontent.com/67859818/218969616-cdd254ba-9204-4f4f-9482-bbf4a13043e9.png)
 
-#### Architecture and Features
+# 
 └── Blog Site<br>
 &nbsp;&nbsp;&nbsp;&nbsp;├── static<br>
 &nbsp;&nbsp;&nbsp;&nbsp;├── templates<br>
