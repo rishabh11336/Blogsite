@@ -1,19 +1,3 @@
-# Blogsite
-
-<h1>for virtual enviroment</h1>
-<strong>command: <i>pip install virtualenv</i></strong> <br><br>
-<strong>command: <i>virtualenv venv_name</i> </strong> <br>
-<h2>to learn more about venv refer to</h2>
-https://medium.com/@asusrishabh/requirements-txt-in-python-947b0b43bbe6
-
-<br>
-<h2>use requirement.txt to install compatible packages</h2>
-<strong>command: <i>pip install -r requirment.txt</i></strong><br>
-<h2> To run flask server</h2>
-<strong>command: <i>python main.py</i></strong>
-
-### Wireframe: Blog.png
-
 ## Description
 Bolglite is a simple blog application like Instagram, twitter or Linkedin, It is a multi user app with
 login, feed, post/blog, with various features like follow/unfollow, edit profile/post and search.<br>
@@ -55,3 +39,4 @@ DELETE:- localhost:8080/posts/{postid}<br>
 &nbsp;&nbsp;&nbsp;&nbsp;├── requirement.txt<br>
 &nbsp;&nbsp;&nbsp;&nbsp;├── database.sqlite3<br>
 
+### Wireframe: Blog.png
