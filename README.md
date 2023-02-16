@@ -12,8 +12,8 @@ Technologies used
 7. Jinja2==3.1.2 (HTML injection)
 8. SQLAlchemy==1.4.45 (SQLite connection)
 9. Werkzeug==2.2.2 ( To secure file)
-# API Design
-### APIs are for CRUD Operation on USER & BLOG/POST
+
+## APIs are for CRUD Operation on USER & BLOG/POST
 ### For UserAPI
 GET:- localhost:8080/users/{userid}<br>
 POST:- localhost:8080/users/<br>
