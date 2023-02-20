@@ -1,3 +1,23 @@
+## for virtual enviroment
+```
+command: pip install virtualenv
+```
+```
+command: virtualenv <venv_name>
+```
+## to learn more about venv refer to
+```
+https://medium.com/@asusrishabh/requirements-txt-in-python-947b0b43bbe6
+```
+- use requirement.txt to install compatible packages
+```
+command: pip install -r requirment.txt
+```
+- To run flask server
+```
+command: python main.py
+```
+
 ## Description
 Bolglite is a simple blog application like Instagram, twitter or Linkedin, It is a multi user app with
 login, feed, post/blog, with various features like follow/unfollow, edit profile/post and search.<br>
