@@ -2,7 +2,7 @@
 Bolglite is a simple blog application like Instagram, twitter or Linkedin, It is a multi user app with
 login, feed, post/blog, with various features like follow/unfollow, edit profile/post and search.<br>
 This consist of two APIs for CRUD operation on USER and BLOG/POST
-Technologies used
+- Technologies used
 1. Python (Programming Language)
 2. Flask (Web Framework)
 3. HTML (HTML Doc.)
@@ -14,16 +14,20 @@ Technologies used
 9. Werkzeug==2.2.2 ( To secure file)
 
 ## APIs are for CRUD Operation on USER & BLOG/POST
-### For UserAPI
-> GET:- localhost:8080/users/{userid}<br>
-> POST:- localhost:8080/users/<br>
-> PUT:- localhost:8080/users/{userid}<br>
-> DELETE:- localhost:8080/users/{userid}<br>
-### For POST/BLOG_API
-> GET:- localhost:8080/posts/{postid}<br>
-> POST:- localhost:8080/posts/<br>
-> PUT:- localhost:8080/posts/{postid}<br>
-> DELETE:- localhost:8080/posts/{postid}<br>
+- For UserAPI
+```
+GET:- localhost:8080/users/{userid}<br>
+POST:- localhost:8080/users/<br>
+PUT:- localhost:8080/users/{userid}<br>
+DELETE:- localhost:8080/users/{userid}<br>
+```
+- For POST/BLOG_API
+```
+GET:- localhost:8080/posts/{postid}<br>
+POST:- localhost:8080/posts/<br>
+PUT:- localhost:8080/posts/{postid}<br>
+DELETE:- localhost:8080/posts/{postid}<br>
+```
 #### (check API.pdf for hints to check APIs)
 ## DB Schema Design
 ![image](https://user-images.githubusercontent.com/67859818/218969616-cdd254ba-9204-4f4f-9482-bbf4a13043e9.png)
