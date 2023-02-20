@@ -15,15 +15,15 @@ Technologies used
 
 ## APIs are for CRUD Operation on USER & BLOG/POST
 ### For UserAPI
-GET:- localhost:8080/users/{userid}<br>
-POST:- localhost:8080/users/<br>
-PUT:- localhost:8080/users/{userid}<br>
-DELETE:- localhost:8080/users/{userid}<br>
+> GET:- localhost:8080/users/{userid}<br>
+> POST:- localhost:8080/users/<br>
+> PUT:- localhost:8080/users/{userid}<br>
+> DELETE:- localhost:8080/users/{userid}<br>
 ### For POST/BLOG_API
-GET:- localhost:8080/posts/{postid}<br>
-POST:- localhost:8080/posts/<br>
-PUT:- localhost:8080/posts/{postid}<br>
-DELETE:- localhost:8080/posts/{postid}<br>
+> GET:- localhost:8080/posts/{postid}<br>
+> POST:- localhost:8080/posts/<br>
+> PUT:- localhost:8080/posts/{postid}<br>
+> DELETE:- localhost:8080/posts/{postid}<br>
 #### (check API.pdf for hints to check APIs)
 ## DB Schema Design
 ![image](https://user-images.githubusercontent.com/67859818/218969616-cdd254ba-9204-4f4f-9482-bbf4a13043e9.png)
