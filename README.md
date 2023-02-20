@@ -1,3 +1,4 @@
+# Bloglite
 ## for virtual enviroment
 ```
 command: pip install virtualenv
@@ -37,15 +38,27 @@ This consist of two APIs for CRUD operation on USER and BLOG/POST
 - For UserAPI
 ```
 GET:- localhost:8080/users/{userid}<br>
+```
+```
 POST:- localhost:8080/users/<br>
+```
+```
 PUT:- localhost:8080/users/{userid}<br>
+```
+```
 DELETE:- localhost:8080/users/{userid}<br>
 ```
 - For POST/BLOG_API
 ```
 GET:- localhost:8080/posts/{postid}<br>
+```
+```
 POST:- localhost:8080/posts/<br>
+```
+```
 PUT:- localhost:8080/posts/{postid}<br>
+```
+```
 DELETE:- localhost:8080/posts/{postid}<br>
 ```
 #### (check API.pdf for hints to check APIs)
