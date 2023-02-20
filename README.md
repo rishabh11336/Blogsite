@@ -1,12 +1,12 @@
 # Bloglite
-## for virtual enviroment
+## create virtual enviroment
 ```
 command: pip install virtualenv
 ```
 ```
 command: virtualenv <venv_name>
 ```
-## to learn more about venv refer to
+## Learn more about virtual enviroment refer to
 ```
 https://medium.com/@asusrishabh/requirements-txt-in-python-947b0b43bbe6
 ```
