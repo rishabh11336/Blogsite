@@ -37,29 +37,29 @@ This consist of two APIs for CRUD operation on USER and BLOG/POST
 ## APIs are for CRUD Operation on USER & BLOG/POST
 - For UserAPI
 ```
-GET:- localhost:8080/users/{userid}<br>
+GET:- localhost:8080/users/{userid}
 ```
 ```
-POST:- localhost:8080/users/<br>
+POST:- localhost:8080/users/
 ```
 ```
-PUT:- localhost:8080/users/{userid}<br>
+PUT:- localhost:8080/users/{userid}
 ```
 ```
-DELETE:- localhost:8080/users/{userid}<br>
+DELETE:- localhost:8080/users/{userid}
 ```
 - For POST/BLOG_API
 ```
-GET:- localhost:8080/posts/{postid}<br>
+GET:- localhost:8080/posts/{postid}
 ```
 ```
-POST:- localhost:8080/posts/<br>
+POST:- localhost:8080/posts/
 ```
 ```
-PUT:- localhost:8080/posts/{postid}<br>
+PUT:- localhost:8080/posts/{postid}
 ```
 ```
-DELETE:- localhost:8080/posts/{postid}<br>
+DELETE:- localhost:8080/posts/{postid}
 ```
 #### (check API.pdf for hints to check APIs)
 ## DB Schema Design
