@@ -19,3 +19,41 @@ command: pip install -r requirment.txt
 ```
 command: python main.py
 ```
+
+## For testing username in current database
+#### 1.
+Username
+```
+rishabh@gmail.com
+```
+Password
+```
+qwerty
+```
+#### 2.
+Username
+```
+abhay@gmail.com
+```
+Password
+```
+abcdef
+```
+#### 3.
+Username
+```
+rish@gmail.com
+```
+Password
+```
+12345
+```
+#### 4.
+Username
+```
+tan@gmail.com
+```
+Password
+```
+12345
+```
