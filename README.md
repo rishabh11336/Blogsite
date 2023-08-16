@@ -76,5 +76,5 @@ DELETE:- localhost:8080/posts/{postid}
 &nbsp;&nbsp;&nbsp;&nbsp;├── requirement.txt<br>
 &nbsp;&nbsp;&nbsp;&nbsp;├── database.sqlite3<br>
 
-### Wireframe: Blog.png
+### [Wireframe: Blog.png](https://github.com/rishabh11336/Blogsite/blob/main/Blog.png)
 ### [Looking for email and password for webapp](https://github.com/rishabh11336/Blogsite/blob/main/Blog%20Site/README.md#for-testing-username-in-current-database)
