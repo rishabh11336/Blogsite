@@ -1,4 +1,5 @@
 ![GitHub](https://img.shields.io/github/license/rishabh11336/Blogsite)
+![GitHub repo size](https://img.shields.io/github/repo-size/rishabh11336/Blogsite)
 # Bloglite
 ## create virtual enviroment
 ```
