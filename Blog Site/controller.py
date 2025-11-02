@@ -126,18 +126,22 @@ def follow(id):
 def search():
     if 'user_id' in session:
         userid = session['user_id']
-        search = request.form.get('search')
-        print('search', search)
-        users = User.query.all()
+        query = (request.form.get('search') or '').strip()
+        print('search', query)
         user_list = []
-        for user in users:
-            if user.name == search or user.email == search:
+        if query:
+            # case-insensitive partial match on name or email
+            users = User.query.filter(
+                db.or_(User.name.ilike(f"%{query}%"), User.email.ilike(f"%{query}%"))
+            ).all()
+            for user in users:
                 following_check = Following.query.filter_by(following_id=user.id, id=userid)
                 follow_check = True if 1==len([i for i in following_check]) else False
                 if user.id == userid:
                     follow_check = 'user'
-                user_list += [(user,follow_check)] 
-        return render_template('search.html', userid=userid, user_list=user_list)
+                user_list.append((user, follow_check))
+
+        return render_template('search.html', userid=userid, user_list=user_list, query=query)
     else:
         return redirect('/sign-in')
 
@@ -403,6 +407,54 @@ def delete_post(post_id):
         else:
             db.session.commit()
             return redirect(url_for('blog', id=session['user_id']))
+    else:
+        return redirect('/sign-in')
+
+
+# Add comment to a post
+@app.route('/comment/<int:post_id>', methods=['POST'])
+def add_comment(post_id):
+    if 'user_id' in session:
+        try:
+            comment_text = request.form.get('comment')
+            user = User.query.filter_by(id=session['user_id'])
+            check = [i for i in user]
+            if not check:
+                return redirect('/sign-in')
+            update_comment = Comment(post_id=post_id, user_id=session['user_id'], name=check[0].name, comment=comment_text)
+            db.session.add(update_comment)
+            db.session.flush()
+        except Exception as e:
+            print('rollback')
+            db.session.rollback()
+            return "{}".format(e), "not commented"
+        else:
+            db.session.commit()
+            # redirect back to the page where the comment was posted
+            return redirect(request.referrer or '/')
+    else:
+        return redirect('/sign-in')
+
+
+# Delete comment (only owner)
+@app.route('/delete-comment/<int:comment_id>')
+def delete_comment(comment_id):
+    if 'user_id' in session:
+        try:
+            comment = Comment.query.filter_by(comment_id=comment_id).first()
+            if not comment:
+                return redirect(request.referrer or '/')
+            if comment.user_id != session['user_id']:
+                return redirect('/')
+            Comment.query.filter_by(comment_id=comment_id).delete()
+            db.session.flush()
+        except Exception as e:
+            print('rollback')
+            db.session.rollback()
+            return "{}".format(e), "not deleted"
+        else:
+            db.session.commit()
+            return redirect(request.referrer or '/')
     else:
         return redirect('/sign-in')
 

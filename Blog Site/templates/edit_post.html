@@ -1,30 +1,57 @@
 {% extends "base.html" %}
-  {% block main %}
-  <div class="container-lg px-4 py-4 post_border my-4">
-    <form method="POST" action="/edit-post/{{post.post_id}}" enctype="multipart/form-data">
-        <div class="mb-3">
-        <p>#{{post.post_id}} <a href="/{{post.id}}">{{post.name}}</a></p>
-        <input class="form-control" type="text" name="title" placeholder="Title" value="{{post.title}}" aria-label="Title example">
-        {% if post.image %}
-            <center class="post_border my-2"><img src="/static/{{post.image}}" width="640" height="360"></center>
-        {% endif %}
-        <dl>
-            <p>
-              <input type="file" name="file" autocomplete="off">
-            </p>
-        </dl>
-        <textarea class="form-control my-2" name="post" id="exampleFormControlTextarea1" rows="3">{{post.post}}</textarea>
-        <p class="">{{post.time}}</p>
+{% block main %}
+  <div class="container-lg px-4 py-4">
+    <div class="post_border mx-auto">
+      <form method="POST" action="/edit-post/{{ post.post_id }}" enctype="multipart/form-data">
+        <div class="d-flex justify-content-between align-items-start mb-2">
+          <div>
+            <div class="muted small">#{{ post.post_id }} · <a href="/{{ post.id }}">{{ post.name }}</a></div>
+            <h5 class="mt-1">Edit post</h5>
+          </div>
+          <div class="muted small">{{ post.time }}</div>
         </div>
-    
-    <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
-        <label for="floatingPassword">Password</label>
+
+        <div class="mb-3">
+          <div class="form-floating mb-2">
+            <input class="form-control" id="title" name="title" type="text" placeholder="Title" value="{{ post.title }}">
+            <label for="title">Title</label>
+          </div>
+
+          <div class="mb-3">
+            {% if post.image %}
+              <div class="text-center mb-2">
+                <img src="{{ url_for('static', filename=post.image) }}" alt="post image" class="post-image">
+              </div>
+            {% endif %}
+            <label class="form-label">Change image (optional)</label>
+            <input class="form-control" type="file" name="file" accept="image/*">
+          </div>
+
+          <div class="form-floating mb-2">
+            <textarea class="form-control" id="postBody" name="post" placeholder="Write your post" style="min-height:140px">{{ post.post }}</textarea>
+            <label for="postBody">Post</label>
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <div class="form-floating">
+              <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+              <label for="password">Confirm password</label>
+            </div>
+          </div>
+          <div class="col text-end">
+            <a href="/delete-post/{{ post.post_id }}" class="btn btn-outline-danger me-2" title="Delete post">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 5h4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5v-7z"/>
+                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 1 1 0-2H5.5a1 1 0 0 1 .858.485L7.118 3h1.764l.76-1.515A1 1 0 0 1 10.5 1h3a1 1 0 0 1 1 1z"/>
+              </svg>
+              &nbsp;Delete
+            </a>
+            <button class="btn btn-post" type="submit">Save changes</button>
+          </div>
+        </div>
+      </form>
     </div>
-    <button type="button" class="btn btn-outline-danger"><a href="/delete-post/{{post.post_id}}">Delete</a></button>
-    <button class="btn btn-outline-success my-2" type="submit">Edit Post</button>
-    </form>
-    <p class="">{{post.time}}</p>
   </div>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
-  {% endblock %} 
+{% endblock %}

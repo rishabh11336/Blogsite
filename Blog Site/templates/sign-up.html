@@ -45,55 +45,80 @@
   <body class="text-center">
     
 <main class="form-signin">
-  <form method="POST" action="/register" enctype="multipart/form-data">
-    <a href="/">
-    <svg xmlns="http://www.w3.org/2000/svg" width="72" height="57" fill="currentColor" class="bi bi-compass" viewBox="0 0 16 16">
-      <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016zm6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-      <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/>
-    </svg></a>
-    <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+  <div class="auth-card">
+    <div class="brand">
+      <div style="width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#4f46e5,#06b6d4);box-shadow:0 6px 20px rgba(79,70,229,0.18)">
+        <a href="/" style="display:inline-block;color:#fff">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-compass" viewBox="0 0 16 16">
+            <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016zm6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+            <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/>
+          </svg>
+        </a>
+      </div>
+      <h2 style="margin-left:6px">Create account</h2>
+    </div>
+    <div class="auth-sub">Join Compass — create your profile and start sharing</div>
+    <div class="auth-decor" aria-hidden="true"></div>
 
-    <div class="form-floating">
-      <input type="text" class="form-control" id="floatingInput" name="name" placeholder="First Last" required>
-      <label for="floatingInput">Name</label>
-    </div>
-    <div class="form-floating">
-      <input type="number" class="form-control" id="floatingInput" name="contact_no" required>
-      <label for="floatingInput">Contact No.</label>
-    </div>
-    <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com" required>
-      <label for="floatingInput">Email address</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
-      <label for="floatingPassword">Password</label>
-    </div>
-    <div class="form-floating">
-      <p>upload your Avatar</p>
-          <dl>
-          <p>
-            <input type="file" name="file" autocomplete="off" required>
-          </p>
-          </dl>
-    </div>
+    <form method="POST" action="/register" enctype="multipart/form-data">
+      <div class="row gx-2">
+        <div class="col-12 mb-2">
+          <label class="form-label visually-hidden" for="name">Full name</label>
+          <input id="name" name="name" type="text" class="form-control" placeholder="Full name" required>
+        </div>
 
-    <div>
-      <label>Gender: </label>
-      <input type="checkbox" name="sex" value="Male" />
-      <label>Male</label>
-      <input type="checkbox" name="sex" value="Female" />
-      <label>Female</label>
-      <input type="checkbox" name="sex" value="Other" />
-      <label>Other</label>
-    </div>
+        <div class="col-6 mb-2">
+          <label class="form-label visually-hidden" for="contact">Contact</label>
+          <input id="contact" name="contact_no" type="text" class="form-control" placeholder="Contact (optional)">
+        </div>
 
-    <div class="checkbox mb-3">
-      <p>Already on Compass? <a href="/sign-in">Sign in</a></p>
+        <div class="col-6 mb-2">
+          <label class="form-label visually-hidden" for="email">Email</label>
+          <input id="email" name="email" type="email" class="form-control" placeholder="Email" required>
+        </div>
+
+        <div class="col-12 mb-2">
+          <label class="form-label visually-hidden" for="password">Password</label>
+          <input id="password" name="password" type="password" class="form-control" placeholder="Create a password" required>
+        </div>
+
+        <div class="col-12 mb-2">
+          <label class="form-label" for="file">Avatar (optional)</label>
+          <input id="file" name="file" type="file" class="form-control" accept="image/*">
+        </div>
+
+        <div class="col-12 mb-2">
+          <label class="form-label d-block">Gender</label>
+          <div class="d-flex gap-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="sex" id="male" value="Male">
+              <label class="form-check-label" for="male">Male</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="sex" id="female" value="Female">
+              <label class="form-check-label" for="female">Female</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="sex" id="other" value="Other">
+              <label class="form-check-label" for="other">Other</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <button class="w-100 btn btn-primary" type="submit">Create account</button>
+      </div>
+
+      <div class="d-flex justify-content-center align-items-center mt-3">
+        <div class="small muted">Already on Compass? <a href="/sign-in">Sign in</a></div>
+      </div>
+    </form>
+
+    <div class="auth-footer mt-3 auth-links">
+      <small>&copy; Compass • 2022-2025</small>
     </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2022-2023</p>
-  </form>
+  </div>
 </main>
 
 

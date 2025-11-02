@@ -32,6 +32,21 @@ class Following(db.Model):
     following = db.Column(db.String,   db.ForeignKey("user.name"), nullable=False)
     following_id = db.Column(db.Integer,   db.ForeignKey("user.id"), nullable=False)
 
+
+# Model for comments
+class Comment(db.Model):
+    __tablename__ = 'comment'
+    comment_id = db.Column(db.Integer, primary_key=True, nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.post_id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    name = db.Column(db.String, db.ForeignKey('user.name'), nullable=False)
+    comment = db.Column(db.String(500))
+    time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    # optional: repr
+    def __repr__(self):
+        return f"<Comment {self.comment_id} by {self.name}>"
+
 #for Mad-2 project not implemented yet 
 '''
 class Comment(db.Model):
@@ -54,3 +69,6 @@ class Post(db.Model):
     name = db.Column(db.String,   db.ForeignKey("user.name"), nullable=False)
     image = db.Column(db.String)
     time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    # Relationship: comments for this post
+    comments = db.relationship('Comment', backref='post_parent', lazy='dynamic', cascade='all, delete-orphan')

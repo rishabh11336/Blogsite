@@ -42,39 +42,58 @@
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='signin.css') }}">
   </head>
-  <body class="text-center">
+  <body>
     
 <main class="form-signin">
-  <form action="/login-authentication" method="POST">
-    <a href="/">
-      <svg xmlns="http://www.w3.org/2000/svg" width="72" height="57" fill="currentColor" class="bi bi-compass" viewBox="0 0 16 16">
-        <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016zm6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-        <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/>
-      </svg></a>
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+  <div class="auth-card">
+      <div class="brand">
+        <div style="width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#4f46e5,#06b6d4);box-shadow:0 6px 20px rgba(79,70,229,0.18)">
+          <a href="/" style="display:inline-block;color:#fff">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-compass" viewBox="0 0 16 16">
+              <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016zm6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+              <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/>
+            </svg>
+          </a>
+        </div>
+  <h2>Compass</h2>
+      </div>
+      <div class="auth-sub">Sign in to continue to your personalized feed</div>
+      <div class="auth-decor" aria-hidden="true"></div>
 
-    <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com" required>
-      <label for="floatingInput">Email address</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
-      <label for="floatingPassword">Password</label>
+    <form action="/login-authentication" method="POST">
+      <div class="mb-3">
+        <label for="email" class="form-label visually-hidden">Email</label>
+        <input id="email" name="email" type="email" class="form-control" placeholder="name@example.com" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label visually-hidden">Password</label>
+        <input id="password" name="password" type="password" class="form-control" placeholder="Your password" required>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="remember-me" id="rememberMe">
+          <label class="form-check-label muted small" for="rememberMe">Remember me</label>
+        </div>
+      </div>
+      <div class="forgot"><a href="/forgot-password">Forgot password?</a></div>
+
+      <button class="w-100 btn btn-primary" type="submit">Sign in</button>
+    </form>
+
+    <!-- CTA -->
+    <div class="d-flex justify-content-center align-items-center gap-2 mt-3">
+      <span class="muted small">Don't have an account?</span>
+      <a class="btn btn-sm btn-outline-primary" href="/sign-up">Create account</a>
     </div>
 
-    <div class="checkbox mb-3">
-      <p>Not on Compass? <a href="/sign-up">Sign up</a></p>
+    <div class="auth-footer mt-3 auth-links">
+      <small>&copy; Compass • 2022-2025</small>
     </div>
-
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2022-2023</p>
-  </form>
+  </div>
 </main>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    

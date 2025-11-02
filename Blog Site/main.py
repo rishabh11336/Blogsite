@@ -20,8 +20,6 @@ app.secret_key=os.urandom(24)
 
 #Model
 #from model import *
-db.init_app(app)
-app.app_context().push()
  
 #controller
 from controller import *

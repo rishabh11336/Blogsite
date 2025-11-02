@@ -1,4 +1,153 @@
 .post_border {
-  border: 1px solid black;
-  border-radius: 10px;
+  border: 1px solid rgba(16,24,40,0.04);
+  border-radius: 14px;
+  background-color: #ffffff;
+  box-shadow: 0 12px 40px rgba(18, 38, 63, 0.06);
+  padding: 20px;
 }
+
+:root{
+  --muted: #6b7280;
+  --primary-500: #2563eb;
+  --primary-600: #1e40af;
+  --accent-gradient: linear-gradient(135deg,#4f46e5 0%,#06b6d4 100%);
+}
+
+/* Global font */
+body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:#f6f8fb; }
+
+/* Post header */
+.post-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.post-header .avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid #eef1f6;
+}
+
+/* Limit post card width and center it for better readability */
+.post_border {
+  max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: box-shadow .18s ease, transform .12s ease;
+}
+.post-header .meta {
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+/* Post title */
+.post-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 12px 0;
+}
+
+/* Post content */
+.post-content {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #212529;
+}
+
+/* Post image responsive */
+.post-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  display: block;
+  margin: 12px auto;
+  box-shadow: 0 6px 18px rgba(18,38,63,0.04);
+}
+
+/* Small avatar used inside comments */
+.avatar-sm {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #eef1f6;
+}
+
+.comment .comment-body { margin-top: 6px; color: #212529; }
+.comment .comment-left { display:flex; gap:10px; align-items:flex-start }
+.comment .comment-right { flex:1 }
+.comment .comment-actions { margin-left: 12px }
+
+/* Post composer styles */
+.container-xl .form-control { border-radius: 10px; padding: 12px; border:1px solid #e6eefc }
+.container-xl .btn-post { background: var(--accent-gradient); color:#fff; border:none; border-radius:10px; padding:8px 14px; box-shadow:0 8px 24px rgba(79,70,229,0.12); }
+.container-xl .btn-post:hover { transform: translateY(-1px) }
+
+/* Tighten spacing on small screens */
+@media (max-width: 576px) {
+  .post_border { padding: 14px }
+  .avatar-sm { width:36px; height:36px }
+}
+
+/* User cards (used in search results / profile lists) */
+.user-card {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 12px;
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(18,38,63,0.04);
+  border: 1px solid #eef1f6;
+}
+.user-card .avatar-lg { width: 96px; height:96px; border-radius:12px; object-fit:cover; }
+.user-card .user-meta { flex:1 }
+.user-card .user-actions { display:flex; gap:8px; align-items:center }
+
+/* Buttons spacing */
+.post-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.post-actions .btn {
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+/* Primary button treatment to match auth pages */
+.btn-primary {
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 700;
+  background: var(--accent-gradient);
+  border: none;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(79,70,229,0.12);
+}
+.btn-primary:hover{ transform: translateY(-1px); filter:brightness(0.98)}
+
+/* Comments */
+.comments { border-top: 1px solid #f1f3f5; padding-top: 12px; }
+.comment { padding: 8px 0; border-bottom: 1px solid #f8f9fa; }
+.comment:last-child { border-bottom: none; }
+.comment .comment-meta { font-size: 0.85rem; color: var(--muted); }
+.comment .comment-body { margin-top: 6px; color: #212529 }
+.comment .comment-actions { margin-left: 12px }
+
+/* Comment form */
+.comment-form textarea { resize: vertical; min-height: 64px; border-radius: 10px; border:1px solid #e6eefc; padding:10px }
+
+/* Small devices tweaks */
+@media (max-width: 576px) {
+  .post-header { gap: 8px; }
+  .post-title { font-size: 1.05rem; }
+}
+
+/* Utility */
+.muted { color:#6c757d }
+.small { font-size:0.85rem }

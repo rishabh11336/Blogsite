@@ -1,58 +1,78 @@
 {% extends "base.html" %}
-  {% block main %}
-  <div class="container-md my-4">
-  <main class="form-signin">
-    <form method="POST" action="/profile-edit-action/{{userid}}" enctype="multipart/form-data">
-  
-      <div class="form-floating">
-        <input type="text" class="form-control" id="floatingInput" value="{{user.name}}" name="name" placeholder="First Last" required>
-        <label for="floatingInput">Name</label>
-      </div>
-      <div class="form-floating my-2">
-        <input type="number" class="form-control" id="floatingInput" value="{{user.contact_no}}" name="contact_no" required>
-        <label for="floatingInput">Contact No.</label>
-      </div>
-      <div class="form-floating my-2">
-        <input type="email" class="form-control" id="floatingInput" value="{{user.email}}" name="email" placeholder="name@example.com" required>
-        <label for="floatingInput">Email address</label>
-      </div>
-      <div class="form-floating">
-        <input type="text" class="form-control" id="floatingInput" value="{{user.bio}}" name="bio" placeholder="Bio" required>
-        <label for="floatingInput">Bio</label>
-      </div>
-      <div class="form-floating my-2">
-        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
-        <label for="floatingPassword">Password</label>
-      </div>
-  
-      <div class="my-2">
-        <label>Gender: </label>
-        {% if user.sex == 'Male' %}
-        <input type="checkbox" name="sex" value="Male" checked/>
-        <label>Male</label>  
-        <input type="checkbox" name="sex" value="Female" />
-        <label>Female</label>
-        <input type="checkbox" name="sex" value="Other" />
-        <label>Other</label>
-        {% elif user.sex == 'Female' %}
-        <input type="checkbox" name="sex" value="Male" />
-        <label>Male</label>
-        <input type="checkbox" name="sex" value="Female" checked/>
-        <label>Female</label>
-        <input type="checkbox" name="sex" value="Other" />
-        <label>Other</label>
-        {% elif user.sex == 'Other' %}
-        <input type="checkbox" name="sex" value="Male" />
-        <label>Male</label>
-        <input type="checkbox" name="sex" value="Female" />
-        <label>Female</label>
-        <input type="checkbox" name="sex" value="Other" checked/>
-        <label>Other</label>
-        {% endif %}
-      </div>
+{% block main %}
+  <div class="container py-4">
+    <div class="form-signin mx-auto" style="max-width:720px;">
+      <div class="auth-card">
+        <div class="brand" style="justify-content:flex-start;">
+          <img src="/static/{{ user.profile_pic }}" alt="avatar" class="avatar-lg" style="width:96px;height:96px;border-radius:12px;object-fit:cover">
+          <div style="margin-left:12px">
+            <h4 style="margin:0">Edit profile</h4>
+            <div class="muted small">Update your account information</div>
+          </div>
+        </div>
 
-      <button class="w-100 btn btn-lg btn-primary" type="submit">Update Profile</button>
-    </form>
-  </main>
+        <form method="POST" action="/profile-edit-action/{{ userid }}" enctype="multipart/form-data" class="mt-3">
+          <div class="row g-2">
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="name" value="{{ user.name }}" name="name" placeholder="Full name" required>
+                <label for="name">Name</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input type="email" class="form-control" id="email" value="{{ user.email }}" name="email" placeholder="name@example.com" required>
+                <label for="email">Email address</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="contact" value="{{ user.contact_no }}" name="contact_no" placeholder="Contact No.">
+                <label for="contact">Contact No.</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                <label for="password">Password</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="bio" value="{{ user.bio }}" name="bio" placeholder="Bio">
+                <label for="bio">Bio</label>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Avatar (optional)</label>
+              <input class="form-control" type="file" name="file" accept="image/*">
+            </div>
+
+            <div class="col-12">
+              <label class="form-label d-block">Gender</label>
+              <div class="d-flex gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sex" id="male" value="Male" {% if user.sex == 'Male' %}checked{% endif %}>
+                  <label class="form-check-label" for="male">Male</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sex" id="female" value="Female" {% if user.sex == 'Female' %}checked{% endif %}>
+                  <label class="form-check-label" for="female">Female</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sex" id="other" value="Other" {% if user.sex == 'Other' %}checked{% endif %}>
+                  <label class="form-check-label" for="other">Other</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 mt-3 text-end">
+              <button class="btn btn-post" type="submit">Update profile</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
-  {% endblock %}
+{% endblock %}
