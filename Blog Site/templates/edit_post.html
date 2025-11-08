@@ -20,7 +20,7 @@
           <div class="mb-3">
             {% if post.image %}
               <div class="text-center mb-2">
-                <img src="{{ url_for('static', filename=post.image) }}" alt="post image" class="post-image">
+                <img src="{{ post.image if (post.image.startswith('data:') or post.image.startswith('/')) else url_for('static', filename=post.image) }}" alt="post image" class="post-image">
               </div>
             {% endif %}
             <label class="form-label">Change image (optional)</label>

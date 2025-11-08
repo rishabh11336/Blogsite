@@ -3,6 +3,8 @@ from main import app
 from werkzeug.utils import secure_filename
 from model import *
 import os
+import base64
+import mimetypes
 
 #Allowed set of file format
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
@@ -180,10 +182,14 @@ def register():
             cpassword = request.form.get("password")
             ccontact = request.form.get("contact_no")
             cname = request.form.get("name")
-            file = request.files['file']
+            file = request.files.get('file')
+            filename = None
             if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                # convert uploaded image to data URI (base64)
+                data = file.read()
+                mime = file.mimetype or mimetypes.guess_type(file.filename)[0] or 'image/png'
+                b64 = base64.b64encode(data).decode('utf-8')
+                filename = f"data:{mime};base64,{b64}"
             csex = request.form.getlist("sex")
             for i in csex[:1]:
                 update_user_db = User(email=cemail, password=cpassword, contact_no=ccontact, sex=i, name=cname, profile_pic=filename, bio="write about yourself")
@@ -211,10 +217,12 @@ def post():
             title = request.form.get("title")
             post = request.form.get("post")
             filename = None
-            file = request.files['file']
+            file = request.files.get('file')
             if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                data = file.read()
+                mime = file.mimetype or mimetypes.guess_type(file.filename)[0] or 'image/png'
+                b64 = base64.b64encode(data).decode('utf-8')
+                filename = f"data:{mime};base64,{b64}"
             print(session['user_id'], user[0].name, filename, post, title)
             updatepost = Post(id=session['user_id'], name=user[0].name, image=filename, post=post, title=title)
             db.session.add(updatepost)
@@ -329,6 +337,15 @@ def profile_action(id):
                 cname = request.form.get("name")
                 cbio = request.form.get("bio")
                 csex = request.form.getlist("sex")
+                # handle optional avatar upload
+                file = request.files.get('file')
+                new_avatar = None
+                if file and allowed_file(file.filename):
+                    data = file.read()
+                    mime = file.mimetype or mimetypes.guess_type(file.filename)[0] or 'image/png'
+                    b64 = base64.b64encode(data).decode('utf-8')
+                    new_avatar = f"data:{mime};base64,{b64}"
+
                 for i in csex[:1]:
                     user = User.query.filter_by(id=session['user_id'])
                     user_db = [i for i in user]
@@ -340,6 +357,8 @@ def profile_action(id):
                         user_db[0].sex = i
                         user_db[0].name = cname
                         user_db[0].bio = cbio
+                        if new_avatar is not None:
+                            user_db[0].profile_pic = new_avatar
                     else:
                         return "Wrong Password"
                 db.session.flush()
@@ -476,17 +495,19 @@ def edit_post(post_id):
                 title = request.form.get("title")
                 post = request.form.get("post")
                 filename = None
-                file = request.files['file']
+                file = request.files.get('file')
                 password = request.form.get("password")
                 if file and allowed_file(file.filename):
-                    filename = secure_filename(file.filename)
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    data = file.read()
+                    mime = file.mimetype or mimetypes.guess_type(file.filename)[0] or 'image/png'
+                    b64 = base64.b64encode(data).decode('utf-8')
+                    filename = f"data:{mime};base64,{b64}"
                 print(session['user_id'], user[0].name, filename, post, title)
                 updatepost = Post.query.filter_by(post_id=post_id)
                 if password == user[0].password:
                     for i in updatepost:
                         if filename is not None:
-                            i.image=filename
+                            i.image = filename
                         i.post=post
                         i.title=title
                 else:

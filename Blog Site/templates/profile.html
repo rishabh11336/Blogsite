@@ -2,7 +2,7 @@
   {% block main %}
   <div class="container py-4">
     <div class="post_border d-flex gap-4 align-items-center">
-      <img src="/static/{{ user.profile_pic }}" alt="avatar" class="avatar-lg">
+  <img src="{{ user.profile_pic if (user.profile_pic.startswith('data:') or user.profile_pic.startswith('/')) else url_for('static', filename=user.profile_pic) }}" alt="avatar" class="avatar-lg">
       <div class="flex-grow-1">
         <h3 style="margin:0">{{ user.name }}</h3>
         <div class="muted mb-2">{{ user.bio or 'No bio yet.' }}</div>
@@ -32,7 +32,7 @@
             <h6 class="mt-2">{{ latest_post.title }}</h6>
             <div class="post-content">{{ latest_post.post }}</div>
             {% if latest_post.image %}
-              <div class="mt-3 text-center"><img src="{{ url_for('static', filename=latest_post.image) }}" class="post-image" alt="post image"></div>
+              <div class="mt-3 text-center"><img src="{{ latest_post.image if (latest_post.image.startswith('data:') or latest_post.image.startswith('/')) else url_for('static', filename=latest_post.image) }}" class="post-image" alt="post image"></div>
             {% endif %}
           {% else %}
             <div class="muted">No Post Yet!</div>

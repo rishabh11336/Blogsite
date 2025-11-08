@@ -9,12 +9,17 @@ class UserAPI(Resource):
         if user_id:
             user = User.query.filter_by(id=user_id).first()
             if user:
+                image_val = user.profile_pic
+                if image_val and image_val.startswith('data:'):
+                    image_ref = image_val
+                else:
+                    image_ref = "127.0.0.1:8080/static/" + (image_val or '')
                 return {'email': user.email,
                 'name': user.name,
                 'sex': user.sex,
                 'conatct': user.contact_no,
                 'Bio': user.bio,
-                'Image': "127.0.0.1:8080/static/"+user.profile_pic}, 200
+                'Image': image_ref}, 200
             else:
                 return {'message': 'User not found'}, 404
 

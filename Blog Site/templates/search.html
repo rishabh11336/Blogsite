@@ -6,7 +6,7 @@
         <div class="d-flex flex-column gap-3">
           {% for user, follow_check in user_list %}
             <div class="user-card">
-              <a href="/{{ user.id }}"><img src="{{ url_for('static', filename=user.profile_pic) }}" alt="avatar" class="avatar-lg"></a>
+              <a href="/{{ user.id }}"><img src="{{ user.profile_pic if (user.profile_pic.startswith('data:') or user.profile_pic.startswith('/')) else url_for('static', filename=user.profile_pic) }}" alt="avatar" class="avatar-lg"></a>
               <div class="user-meta">
                 <div class="d-flex justify-content-between align-items-start">
                   <div>

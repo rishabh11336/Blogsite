@@ -4,7 +4,7 @@
     <div class="form-signin mx-auto" style="max-width:720px;">
       <div class="auth-card">
         <div class="brand" style="justify-content:flex-start;">
-          <img src="/static/{{ user.profile_pic }}" alt="avatar" class="avatar-lg" style="width:96px;height:96px;border-radius:12px;object-fit:cover">
+          <img src="{{ user.profile_pic if (user.profile_pic.startswith('data:') or user.profile_pic.startswith('/')) else url_for('static', filename=user.profile_pic) }}" alt="avatar" class="avatar-lg" style="width:96px;height:96px;border-radius:12px;object-fit:cover">
           <div style="margin-left:12px">
             <h4 style="margin:0">Edit profile</h4>
             <div class="muted small">Update your account information</div>

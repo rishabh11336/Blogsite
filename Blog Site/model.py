@@ -12,7 +12,7 @@ class User(db.Model):
     password = db.Column(db.String(50))  
     contact_no = db.Column(db.Integer)
     sex = db.Column(db.String(6))
-    profile_pic = db.Column(db.String)  #to save url for pics
+    profile_pic = db.Column(db.Text)  # store data URI or filename for pics
     bio = db.Column(db.String(250))
 
 #Model for like/unlike table
@@ -67,7 +67,7 @@ class Post(db.Model):
     title = db.Column(db.String)
     post = db.Column(db.String)
     name = db.Column(db.String,   db.ForeignKey("user.name"), nullable=False)
-    image = db.Column(db.String)
+    image = db.Column(db.Text)  # store data URI or filename for post image
     time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     # Relationship: comments for this post

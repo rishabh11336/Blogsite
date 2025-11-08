@@ -15,7 +15,7 @@
           <div class="post-title">{{ post.title }}</div>
 
           {% if post.image %}
-            <img src="{{ url_for('static', filename=post.image) }}" alt="post image" class="post-image">
+            <img src="{{ post.image if (post.image.startswith('data:') or post.image.startswith('/')) else url_for('static', filename=post.image) }}" alt="post image" class="post-image">
           {% endif %}
 
           <div class="post-content">{{ post.post }}</div>
