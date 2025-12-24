@@ -11,9 +11,9 @@ command: virtualenv <venv_name>
 ```
 https://medium.com/@asusrishabh/requirements-txt-in-python-947b0b43bbe6
 ```
-- use requirement.txt to install compatible packages
+- use requirements.txt to install compatible packages
 ```
-command: pip install -r requirment.txt
+command: pip install -r requirements.txt
 ```
 - To run flask server
 ```

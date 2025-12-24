@@ -12,9 +12,9 @@ command: virtualenv <venv_name>
 ```
 https://medium.com/@asusrishabh/requirements-txt-in-python-947b0b43bbe6
 ```
-- use requirement.txt to install compatible packages
+- use requirements.txt to install compatible packages
 ```
-command: pip install -r requirment.txt
+command: pip install -r requirements.txt
 ```
 - To run flask server
 ```
@@ -22,7 +22,7 @@ command: python main.py
 ```
 
 ## Description
-Bolglite is a simple blog application like Instagram, twitter or Linkedin, It is a multi user app with
+Bloglite is a simple blog application like Instagram, twitter or Linkedin, It is a multi user app with
 login, feed, post/blog, with various features like follow/unfollow, edit profile/post and search.<br>
 This consist of two APIs for CRUD operation on USER and BLOG/POST
 - Technologies used
@@ -75,7 +75,7 @@ DELETE:- localhost:8080/posts/{postid}
 &nbsp;&nbsp;&nbsp;&nbsp;├── main.py<br>
 &nbsp;&nbsp;&nbsp;&nbsp;├── controller.py<br>
 &nbsp;&nbsp;&nbsp;&nbsp;├── model.py<br>
-&nbsp;&nbsp;&nbsp;&nbsp;├── requirement.txt<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── requirements.txt<br>
 &nbsp;&nbsp;&nbsp;&nbsp;├── database.sqlite3<br>
 
 ### [Wireframe: Blog.png](https://github.com/rishabh11336/Blogsite/blob/main/Blog.png)
