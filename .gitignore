@@ -1,5 +1,11 @@
 # Project specific
+# Project specific
 IMPROVEMENT_PLAN.md
+memory_graph.md
+Blog_Site/database.sqlite3
+Blog_Site/database.sqlite3.backup*
+Blog_Site/check_db.py
+Blog_Site/.env.backup
 
 
 # Python

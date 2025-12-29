@@ -21,6 +21,47 @@ command: pip install -r requirements.txt
 command: python main.py
 ```
 
+## Supabase Database Setup (PostgreSQL)
+
+### Option 1: Using Supabase PostgreSQL (Recommended)
+
+1. **Configure Environment Variables**
+   ```bash
+   cd Blog_Site
+   # Edit .env file and replace [YOUR-PASSWORD] with your database password
+   nano .env  # or use any text editor
+   ```
+
+2. **Initialize Database**
+   ```bash
+   conda run -n blogsite python init_supabase_db.py
+   ```
+
+3. **(Optional) Migrate Existing SQLite Data**
+   ```bash
+   # Backup SQLite first
+   cp database.sqlite3 database.sqlite3.backup
+   
+   # Run migration
+   conda run -n blogsite python migrate_sqlite_to_supabase.py
+   ```
+
+4. **Start Application**
+   ```bash
+   conda run -n blogsite python main.py
+   ```
+   Access at: http://localhost:8080
+
+### Option 2: Using SQLite (Development Only)
+
+Simply remove or rename the .env file, and the application will use SQLite automatically:
+```bash
+cd Blog_Site
+mv .env .env.backup
+python main.py
+```
+
+
 ## Description
 Bloglite is a simple blog application like Instagram, twitter or Linkedin, It is a multi user app with
 login, feed, post/blog, with various features like follow/unfollow, edit profile/post and search.<br>

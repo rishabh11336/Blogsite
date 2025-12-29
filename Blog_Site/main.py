@@ -2,20 +2,39 @@ from flask import Flask, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Resource, Api
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
 UPLOAD_FOLDER = 'static/'
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + os.path.join(current_dir, "database.sqlite3")
+
+# Database Configuration - PostgreSQL (Supabase) or SQLite fallback
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or \
+    "sqlite:///" + os.path.join(current_dir, "database.sqlite3")
+
+# PostgreSQL connection pool settings
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'pool_pre_ping': True,        # Verify connections before using
+    'pool_recycle': 300,           # Recycle connections after 5 minutes
+    'pool_size': 10,               # Connection pool size
+    'max_overflow': 20             # Max connections beyond pool_size
+}
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = int(os.environ.get('MAX_CONTENT_LENGTH', 16777216))
+
 db = SQLAlchemy()
 db.init_app(app)
 api = Api(app)
 app.app_context().push()
-#session
-app.secret_key=os.urandom(24)
+
+# Session configuration - use environment variable secret key
+app.secret_key = os.environ.get('SECRET_KEY') or os.urandom(24)
 
 
 #Model

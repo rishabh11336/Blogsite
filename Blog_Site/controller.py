@@ -181,6 +181,11 @@ def register():
             cemail = request.form.get("email")
             cpassword = request.form.get("password")
             ccontact = request.form.get("contact_no")
+            # Convert empty string to None for PostgreSQL BigInteger compatibility
+            if ccontact == '' or not ccontact:
+                ccontact = None
+            else:
+                ccontact = int(ccontact)  # Convert to integer
             cname = request.form.get("name")
             file = request.files.get('file')
             filename = None
@@ -334,6 +339,11 @@ def profile_action(id):
                 cemail = request.form.get("email")
                 cpassword = request.form.get("password")
                 ccontact = request.form.get("contact_no")
+                # Convert empty string to None for PostgreSQL BigInteger compatibility
+                if ccontact == '' or not ccontact:
+                    ccontact = None
+                else:
+                    ccontact = int(ccontact)
                 cname = request.form.get("name")
                 cbio = request.form.get("bio")
                 csex = request.form.getlist("sex")
