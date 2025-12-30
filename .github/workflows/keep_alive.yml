@@ -2,13 +2,14 @@ name: Keep Render App Alive
 
 on:
   schedule:
-    - cron: "*/10 * * * *"  # every 10 minutes
+    - cron: "*/5 * * * *"  # every 5 minutes
   workflow_dispatch:
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Render app
+      - name: Ping Render apps
         run: |
-          curl -fsS https://blogsite-rhfp.onrender.com/ > /dev/null || echo "Ping failed"
+          curl -fsS https://blogsite-rhfp.onrender.com/ > /dev/null || echo "Ping failed: blogsite"
+          curl -fsS https://compass.rishabhsingh.me/ > /dev/null || echo "Ping failed: compass"
