@@ -1,36 +1,38 @@
 {% extends "base.html" %}
-  {% block main %}
-    <div class="container py-4">
-      <h4 class="mb-3">Search results{% if query %} for "{{ query }}"{% endif %}</h4>
-      {% if user_list %}
-        <div class="d-flex flex-column gap-3">
-          {% for user, follow_check in user_list %}
-            <div class="user-card">
-              <a href="/{{ user.id }}"><img src="{{ user.profile_pic if (user.profile_pic.startswith('data:') or user.profile_pic.startswith('/')) else url_for('static', filename=user.profile_pic) }}" alt="avatar" class="avatar-lg"></a>
-              <div class="user-meta">
-                <div class="d-flex justify-content-between align-items-start">
-                  <div>
-                    <h5 class="mb-1"><a href="/{{ user.id }}">{{ user.name }}</a></h5>
-                    <div class="muted small">{{ user.email }}</div>
-                  </div>
-                  <div class="user-actions">
-                    {% if follow_check == 'user' %}
-                      <a class="btn btn-sm btn-outline-secondary" href="/profile-edit-action/{{ user.id }}">Edit</a>
-                    {% elif follow_check %}
-                      <a class="btn btn-sm btn-outline-danger" href="/unfollow-action/{{ user.id }}">Unfollow</a>
-                    {% else %}
-                      <a class="btn btn-sm btn-outline-success" href="/follow-action/{{ user.id }}">Follow</a>
-                    {% endif %}
-                  </div>
-                </div>
-                <p class="mt-2">{{ user.bio or 'No bio yet.' }}</p>
-                <div class="muted small">Sex: {{ user.sex }} · Contact: {{ user.contact_no or '—' }}</div>
-              </div>
-            </div>
-          {% endfor %}
+{% block main %}
+<div class="container py-4">
+  <h4 class="mb-3">Search results{% if query %} for "{{ query }}"{% endif %}</h4>
+  {% if user_list %}
+  <div class="d-flex flex-column gap-3">
+    {% for user, follow_check in user_list %}
+    <div class="user-card">
+      <a href="/{{ user.id }}"><img
+          src="{{ (user.profile_pic if (user.profile_pic and (user.profile_pic.startswith('data:') or user.profile_pic.startswith('/'))) else url_for('static', filename=user.profile_pic or 'default.jpg')) }}"
+          alt="avatar" class="avatar-lg"></a>
+      <div class="user-meta">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h5 class="mb-1"><a href="/{{ user.id }}">{{ user.name }}</a></h5>
+            <div class="muted small">{{ user.email }}</div>
+          </div>
+          <div class="user-actions">
+            {% if follow_check == 'user' %}
+            <a class="btn btn-sm btn-outline-secondary" href="/profile-edit-action/{{ user.id }}">Edit</a>
+            {% elif follow_check %}
+            <a class="btn btn-sm btn-outline-danger" href="/unfollow-action/{{ user.id }}">Unfollow</a>
+            {% else %}
+            <a class="btn btn-sm btn-outline-success" href="/follow-action/{{ user.id }}">Follow</a>
+            {% endif %}
+          </div>
         </div>
-      {% else %}
-        <div class="alert alert-light">No users found matching your search.</div>
-      {% endif %}
+        <p class="mt-2">{{ user.bio or 'No bio yet.' }}</p>
+        <div class="muted small">Sex: {{ user.sex }} · Contact: {{ user.contact_no or '—' }}</div>
+      </div>
     </div>
-  {% endblock %} 
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="alert alert-light">No users found matching your search.</div>
+  {% endif %}
+</div>
+{% endblock %}
