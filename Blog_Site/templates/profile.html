@@ -2,7 +2,7 @@
   {% block main %}
   <div class="container py-4">
     <div class="post_border d-flex gap-4 align-items-center">
-  <img src="{{ user.profile_pic if (user.profile_pic.startswith('data:') or user.profile_pic.startswith('/')) else url_for('static', filename=user.profile_pic) }}" alt="avatar" class="avatar-lg">
+  <img src="{{ (user.profile_pic if (user.profile_pic and (user.profile_pic.startswith('data:') or user.profile_pic.startswith('/'))) else url_for('static', filename=user.profile_pic or 'default.jpg')) }}" alt="avatar" class="avatar-lg">
       <div class="flex-grow-1">
         <h3 style="margin:0">{{ user.name }}</h3>
         <div class="muted mb-2">{{ user.bio or 'No bio yet.' }}</div>
