@@ -121,16 +121,3 @@ DELETE:- localhost:8080/posts/{postid}
 
 ### [Wireframe: Blog.png](https://github.com/rishabh11336/Blogsite/blob/main/Blog.png)
 ### [Looking for email and password for webapp](https://github.com/rishabh11336/Blogsite/blob/main/Blog%20Site/README.md#for-testing-username-in-current-database)
-
-## GitHub Actions - Keep Render Apps Alive
-
-This repository includes a GitHub Actions workflow (`.github/workflows/keep_alive.yml`) that automatically pings deployed Render applications every 14 minutes to prevent them from spinning down due to inactivity on the free tier.
-
-**Why every 14 minutes?**
-- Render free tier apps spin down after 15 minutes of inactivity
-- Running every 14 minutes ensures apps stay active with a safety margin
-- Reduces unnecessary workflow executions (from 288/day at 5min intervals to ~103/day)
-- More respectful of GitHub Actions resources and rate limits
-
-**Manual Trigger:**
-You can manually trigger the workflow from the GitHub Actions tab using the "workflow_dispatch" option if needed.
