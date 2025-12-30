@@ -1,56 +1,100 @@
 {% extends "base.html" %}
-  {% block main %}
-  <div class="container py-4">
-    <div class="post_border d-flex gap-4 align-items-center">
-  <img src="{{ (user.profile_pic if (user.profile_pic and (user.profile_pic.startswith('data:') or user.profile_pic.startswith('/'))) else url_for('static', filename=user.profile_pic or 'default.jpg')) }}" alt="avatar" class="avatar-lg">
-      <div class="flex-grow-1">
-        <h3 style="margin:0">{{ user.name }}</h3>
-        <div class="muted mb-2">{{ user.bio or 'No bio yet.' }}</div>
-        <div class="d-flex gap-3 flex-wrap">
-          <div class="small muted">Sex: {{ user.sex }}</div>
-          <div class="small muted">Contact: {{ user.contact_no or '—' }}</div>
-          <div class="small muted">Email: {{ user.email }}</div>
+{% block main %}
+
+<div class="container py-4">
+
+  <!-- Profile Header -->
+  <section class="post_border p-3">
+    <div class="row g-4 align-items-center">
+
+      <!-- Avatar -->
+      <div class="col-auto">
+        <img class="avatar-lg" alt="avatar" src="{{
+            (user.profile_pic
+              if (user.profile_pic and (user.profile_pic.startswith('data:') or user.profile_pic.startswith('/')))
+              else url_for('static', filename=user.profile_pic or 'default.jpg'))
+          }}">
+      </div>
+
+      <!-- User Meta -->
+      <div class="col">
+        <h3 class="mb-1">{{ user.name }}</h3>
+        <div class="text-muted mb-2">{{ user.bio or 'No bio yet.' }}</div>
+
+        <div class="d-flex flex-wrap gap-3 small text-muted">
+          <span>Sex: {{ user.sex or '—' }}</span>
+          <span>Contact: {{ user.contact_no or '—' }}</span>
+          <span>Email: {{ user.email }}</span>
         </div>
+
+        <!-- Action Buttons -->
         <div class="mt-3">
           {% if follow_check == 'user' %}
-            <a class="btn btn-outline-danger" href="/profile-edit-action/{{ id }}">Edit profile</a>
+          <a class="btn btn-outline-danger" href="/profile-edit-action/{{ id }}">Edit profile</a>
           {% elif follow_check %}
-            <a class="btn btn-outline-danger" href="/unfollow-action/{{ id }}">Unfollow</a>
+          <a class="btn btn-outline-danger" href="/unfollow-action/{{ id }}">Unfollow</a>
           {% else %}
-            <a class="btn btn-post" href="/follow-action/{{ id }}">Follow</a>
+          <a class="btn btn-post" href="/follow-action/{{ id }}">Follow</a>
           {% endif %}
         </div>
       </div>
+
+    </div>
+  </section>
+
+
+  <!-- Content Grid -->
+  <div class="row mt-4 g-4">
+
+    <!-- Latest Post -->
+    <div class="col-12 col-lg-6">
+      <section class="post_border p-3">
+        <h5 class="mb-2">Latest post</h5>
+
+        {% if latest_post %}
+        <div class="text-muted small">
+          #{{ latest_post.post_id }} · {{ latest_post.time }}
+        </div>
+
+        <h6 class="mt-2">{{ latest_post.title }}</h6>
+
+        <div class="post-content">{{ latest_post.post }}</div>
+
+        {% if latest_post.image %}
+        <div class="mt-3 text-center">
+          <img class="post-image" alt="post image" src="{{
+                  latest_post.image
+                    if (latest_post.image.startswith('data:') or latest_post.image.startswith('/'))
+                    else url_for('static', filename=latest_post.image)
+                }}">
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="text-muted">No Post Yet!</div>
+        {% endif %}
+      </section>
     </div>
 
-    <div class="row mt-4 g-4">
-      <div class="col-12 col-lg-6">
-        <div class="post_border">
-          <h5>Latest post</h5>
-          {% if latest_post %}
-            <div class="muted small">#{{ latest_post.post_id }} · {{ latest_post.time }}</div>
-            <h6 class="mt-2">{{ latest_post.title }}</h6>
-            <div class="post-content">{{ latest_post.post }}</div>
-            {% if latest_post.image %}
-              <div class="mt-3 text-center"><img src="{{ latest_post.image if (latest_post.image.startswith('data:') or latest_post.image.startswith('/')) else url_for('static', filename=latest_post.image) }}" class="post-image" alt="post image"></div>
-            {% endif %}
-          {% else %}
-            <div class="muted">No Post Yet!</div>
-          {% endif %}
+
+    <!-- Follow Stats -->
+    <div class="col-12 col-lg-6">
+      <section class="post_border p-3">
+        <h5 class="mb-2">Following / Followers</h5>
+
+        <div class="d-flex justify-content-between small text-muted mt-2">
+          <span>Following: <strong>{{ follow }}</strong></span>
+          <span>Followers: <strong>{{ follower }}</strong></span>
         </div>
-      </div>
-      <div class="col-12 col-lg-6">
-        <div class="post_border">
-          <h5>Following / Followers</h5>
-          <div class="d-flex justify-content-between align-items-center mt-2">
-            <div class="text-muted small">Following: <strong>{{ follow }}</strong></div>
-            <div class="text-muted small">Followers: <strong>{{ follower }}</strong></div>
-          </div>
-          <div class="mt-3">
-            <a href="/blog/{{ id }}" class="small">View all posts</a>
-          </div>
+
+        <div class="mt-3">
+          <a href="/blog/{{ id }}" class="small">View all posts</a>
         </div>
-      </div>
+      </section>
     </div>
+
   </div>
-  {% endblock %} 
+
+</div>
+
+{% endblock %}
