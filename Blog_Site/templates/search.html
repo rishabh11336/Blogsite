@@ -8,7 +8,7 @@
     <div class="user-card">
       <a href="/{{ user.id }}"><img
           src="{{ (user.profile_pic if (user.profile_pic and (user.profile_pic.startswith('data:') or user.profile_pic.startswith('/'))) else url_for('static', filename=user.profile_pic or 'default.jpg')) }}"
-          alt="avatar" class="avatar-lg"></a>
+          alt="avatar" class="avatar-lg" loading="lazy"></a>
       <div class="user-meta">
         <div class="d-flex justify-content-between align-items-start">
           <div>

@@ -1,42 +1,44 @@
 {% extends "base.html" %}
-  {% block main %}
-  <div class="container py-4">
-    <div class="mb-4">
-      <h4>Followers</h4>
-      {% if follow %}
-        <div class="d-flex flex-column gap-3 mt-3">
-          {% for conn in follow %}
-            <div class="user-card">
-              <a href="/{{ conn.id }}"><img src="{{ url_for('static', filename='compass.svg') }}" alt="avatar" class="avatar-lg"></a>
-              <div class="user-meta">
-                <h5 class="mb-1"><a href="/{{ conn.id }}">{{ conn.name }}</a></h5>
-                <div class="muted small">Profile: <a href="/{{ conn.id }}">View</a></div>
-              </div>
-            </div>
-          {% endfor %}
+{% block main %}
+<div class="container py-4">
+  <div class="mb-4">
+    <h4>Followers</h4>
+    {% if follow %}
+    <div class="d-flex flex-column gap-3 mt-3">
+      {% for conn in follow %}
+      <div class="user-card">
+        <a href="/{{ conn.id }}"><img src="{{ url_for('static', filename='compass.svg') }}" alt="avatar"
+            class="avatar-lg" loading="lazy"></a>
+        <div class="user-meta">
+          <h5 class="mb-1"><a href="/{{ conn.id }}">{{ conn.name }}</a></h5>
+          <div class="muted small">Profile: <a href="/{{ conn.id }}">View</a></div>
         </div>
-      {% else %}
-        <div class="alert alert-light small">No followers yet.</div>
-      {% endif %}
+      </div>
+      {% endfor %}
     </div>
-
-    <div class="mb-4">
-      <h4>Following</h4>
-      {% if follower %}
-        <div class="d-flex flex-column gap-3 mt-3">
-          {% for conn in follower %}
-            <div class="user-card">
-              <a href="/{{ conn.following_id }}"><img src="{{ url_for('static', filename='compass.svg') }}" alt="avatar" class="avatar-lg"></a>
-              <div class="user-meta">
-                <h5 class="mb-1"><a href="/{{ conn.following_id }}">{{ conn.following }}</a></h5>
-                <div class="muted small">Profile: <a href="/{{ conn.following_id }}">View</a></div>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-      {% else %}
-        <div class="alert alert-light small">Not following anyone yet.</div>
-      {% endif %}
-    </div>
+    {% else %}
+    <div class="alert alert-light small">No followers yet.</div>
+    {% endif %}
   </div>
-  {% endblock %} 
+
+  <div class="mb-4">
+    <h4>Following</h4>
+    {% if follower %}
+    <div class="d-flex flex-column gap-3 mt-3">
+      {% for conn in follower %}
+      <div class="user-card">
+        <a href="/{{ conn.following_id }}"><img src="{{ url_for('static', filename='compass.svg') }}" alt="avatar"
+            class="avatar-lg" loading="lazy"></a>
+        <div class="user-meta">
+          <h5 class="mb-1"><a href="/{{ conn.following_id }}">{{ conn.following }}</a></h5>
+          <div class="muted small">Profile: <a href="/{{ conn.following_id }}">View</a></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-light small">Not following anyone yet.</div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

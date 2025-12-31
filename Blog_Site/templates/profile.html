@@ -9,7 +9,7 @@
 
       <!-- Avatar -->
       <div class="col-auto">
-        <img class="avatar-lg" alt="avatar" src="{{
+        <img class="avatar-lg" alt="avatar" loading="lazy" src="{{
             (user.profile_pic
               if (user.profile_pic and (user.profile_pic.startswith('data:') or user.profile_pic.startswith('/')))
               else url_for('static', filename=user.profile_pic or 'default.jpg'))
@@ -62,7 +62,7 @@
 
         {% if latest_post.image %}
         <div class="mt-3 text-center">
-          <img class="post-image" alt="post image" src="{{
+          <img class="post-image" alt="post image" loading="lazy" src="{{
                   latest_post.image
                     if (latest_post.image.startswith('data:') or latest_post.image.startswith('/'))
                     else url_for('static', filename=latest_post.image)
