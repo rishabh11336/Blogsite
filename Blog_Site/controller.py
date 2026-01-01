@@ -157,10 +157,9 @@ def search():
 def login():
     cemail = request.form.get("email")
     cpassword = request.form.get("password")
-    user = User.query.filter_by(email=cemail, password=cpassword)
-    check = [i for i in user]
-    if check:
-        session['user_id'] = check[0].id
+    user = User.query.filter_by(email=cemail, password=cpassword).first()
+    if user:
+        session['user_id'] = user.id
         print(session['user_id'])
         print("authentication done")
         return redirect('/home')
