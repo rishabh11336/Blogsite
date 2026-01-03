@@ -18,10 +18,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or \
 
 # PostgreSQL connection pool settings
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-    'pool_pre_ping': True,        # Verify connections before using
-    'pool_recycle': 300,           # Recycle connections after 5 minutes
-    'pool_size': 10,               # Connection pool size
-    'max_overflow': 20             # Max connections beyond pool_size
+    'pool_pre_ping': True,
+    'pool_recycle': 60,          # Reduced from 300 to 60
+    'pool_size': 10,
+    'max_overflow': 20,
+    'pool_timeout': 30,          # Added explicit timeout
+    'connect_args': {
+        "keepalives": 1,
+        "keepalives_idle": 30,
+        "keepalives_interval": 10,
+        "keepalives_count": 5,
+    }
 }
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
